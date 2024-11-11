@@ -1,12 +1,26 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
-import CustomFormField from "../shared/custom-form-field";
-import { Button } from "@/components/ui/button";
-import { signInSchema, signUpSchema, SignInForm, SignUpForm } from "@/schemas/auth-form-schema";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import CustomFormField from "../shared/custom-form-field";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+
+import {
+  signInSchema,
+  signUpSchema,
+  SignInForm,
+  SignUpForm,
+} from "@/schemas/auth-form-schema";
 
 export default function AuthForm({ type }: AuthFormProps) {
   const form = useForm<FormSchema>({
@@ -23,111 +37,122 @@ export default function AuthForm({ type }: AuthFormProps) {
       ? [
           {
             control: form.control,
-            name: "userName",
             label: "Username",
+            name: "userName",
             placeholder: "Enter your username",
+            type: "text",
           },
           {
             control: form.control,
-            name: "email",
             label: "Email",
+            name: "email",
             placeholder: "Enter your email",
+            type: "text",
           },
           {
             control: form.control,
-            name: "password",
             label: "Password",
+            name: "password",
             placeholder: "Enter your password",
+            type: "password",
           },
         ]
       : [
           {
             control: form.control,
-            name: "email",
             label: "Email",
+            name: "email",
             placeholder: "Enter your email",
+            type: "text",
           },
           {
             control: form.control,
-            name: "userName",
             label: "Username",
+            name: "userName",
             placeholder: "Enter your username",
+            type: "text",
           },
           {
             control: form.control,
-            name: "password",
             label: "Password",
+            name: "password",
             placeholder: "Enter your password",
+            type: "password",
           },
           {
             control: form.control,
-            name: "confirmPassword",
             label: "Confirm Password",
+            name: "confirmPassword",
             placeholder: "Confirm your password",
+            type: "password",
           },
         ];
 
   function onSubmit(data: FormSchema) {
     // instead of this console.log, send the data via api to backend
-
-    // if (type === "signUp" && data.password !== (data as SignUpForm).confirmPassword) {
-    //   alert("Passwords do not match");
-    //   return;
-    // }
-
     console.log(data);
     form.reset();
   }
 
   return (
-    <Card className="auth-form w-[80vw] md:w-[60vw] lg:w-[50vw] ">
+    <Card className="auth-form w-[80vw] md:w-[60vw] lg:w-[50vw]">
       <CardHeader>
-        <CardTitle className="card-title text-3xl text-primary font-semibold uppercase tracking-wider">
+        <CardTitle className="card-title text-3xl font-semibold uppercase tracking-wider text-primary">
           {type === "signIn" ? "Sign In" : "Sign Up"}
         </CardTitle>
-        <p className="text-lg text-gray-500 font-normal">Please enter your details</p>
+        <p className="text-lg font-normal text-gray-500">
+          Please enter your details
+        </p>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} method="POST">
             {type === "signIn"
-              ? FormFields.map(field => (
+              ? FormFields.map((field) => (
                   <CustomFormField
                     key={field.name}
-                    name={field.name as keyof SignInForm}
                     control={field.control}
                     label={field.label}
+                    name={field.name as keyof SignInForm}
                     placeholder={field.placeholder}
+                    type={field.type}
                   />
                 ))
-              : FormFields.map(field => (
+              : FormFields.map((field) => (
                   <CustomFormField
                     key={field.name}
-                    name={field.name as keyof SignUpForm}
                     control={field.control}
                     label={field.label}
+                    name={field.name as keyof SignUpForm}
                     placeholder={field.placeholder}
+                    type={field.type}
                   />
                 ))}
-            <Button className="w-full mt-4" type="submit">
+            <Button className="mt-4 w-full" type="submit">
               {type === "signIn" ? "Sign In" : "Sign Up"}
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="">
-        <p className="text-gray-500 text-sm mx-auto">
+        <p className="mx-auto text-sm text-gray-500">
           {type === "signIn" ? (
             <>
               Don't have an account?{" "}
-              <Link className="text-primary hover:text-primary/80" href="/sign-up">
+              <Link
+                className="text-primary hover:text-primary/80"
+                href="/sign-up"
+              >
                 Sign Up
               </Link>
             </>
           ) : (
             <>
               Already have an account?
-              <Link className="text-primary hover:text-primary/80" href="/sign-in">
+              <Link
+                className="text-primary hover:text-primary/80"
+                href="/sign-in"
+              >
                 Sign In
               </Link>
             </>

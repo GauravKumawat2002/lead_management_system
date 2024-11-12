@@ -31,6 +31,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import DateTimeInput from "@/components/ui/date-time-input";
 
 interface CustomFormFieldProps<T extends FieldValues> {
   control: Control<T>;
@@ -45,6 +46,7 @@ interface CustomFormFieldProps<T extends FieldValues> {
     | "select"
     | "textarea"
     | "text"
+    | "datetime-local"
     | string;
 }
 
@@ -185,6 +187,18 @@ export default function CustomFormField<
                 id={label}
                 placeholder={placeholder}
                 type="text"
+                value={field.value as string | undefined}
+              />
+            </FormControl>
+          )}
+          {type === "datetime-local" && (
+            <FormControl>
+              <Input
+                className="input-class pr-10"
+                {...field}
+                id={label}
+                placeholder={placeholder}
+                type="datetime-local"
                 value={field.value as string | undefined}
               />
             </FormControl>

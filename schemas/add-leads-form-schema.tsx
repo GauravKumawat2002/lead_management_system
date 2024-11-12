@@ -34,11 +34,9 @@ const AddLeadsSchema = z.object({
     .string()
     .min(3, { message: "Executive name must be at least 3 characters" }),
 
-  follow_up_date: z.date({ message: "Invalid date" }),
-
-  follow_up_time: z
-    .string()
-    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, { message: "Invalid time" }),
+  follow_up: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/, {
+    message: "Invalid datetime format. Expected format: YYYY-MM-DDThh:mm",
+  }),
 
   no_of_adults: z.string().min(1, { message: "Must have at least 1 adult" }),
 

@@ -147,7 +147,7 @@ export default function CustomFormField<
           {type === "select" && (
             <Select
               onValueChange={field.onChange}
-              defaultValue={field.value as string}
+              value={field.value as string}
             >
               <FormControl>
                 <SelectTrigger>

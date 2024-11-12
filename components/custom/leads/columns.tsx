@@ -83,7 +83,7 @@ export const columns: ColumnDef<LeadsData>[] = [
     ),
   },
   {
-    accessorKey: "package",
+    accessorKey: "package_name",
     header: () => <div className="font-semibold text-primary">Package</div>,
   },
   {

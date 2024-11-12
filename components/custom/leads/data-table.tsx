@@ -51,6 +51,7 @@ import { Settings2, PlusSquare, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
+import { ROUTES } from "@/routes/routes";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -96,7 +97,7 @@ export function DataTable<TData, TValue>({
         </CardTitle>
         <div>
           <Button
-            onClick={() => router.push("/leads/new-lead")}
+            onClick={() => router.push(ROUTES.NEW_LEADS)}
             className="mr-2"
           >
             Add New Lead
@@ -247,19 +248,6 @@ export function DataTable<TData, TValue>({
         >
           Next
         </Button>
-
-        {/* <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select> */}
       </CardFooter>
     </Card>
   );

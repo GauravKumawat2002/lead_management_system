@@ -32,8 +32,7 @@ export default function AddLeads() {
       destination: "",
       enquiry_type: undefined,
       executive: "",
-      follow_up_date: undefined,
-      follow_up_time: "",
+      follow_up: "",
       no_of_adults: "",
       no_of_children: "",
       package_name: "",
@@ -94,19 +93,11 @@ export default function AddLeads() {
     },
     {
       control: addLeadsForm.control,
-      label: "Follow Up Date",
-      name: "follow_up_date",
-      placeholder: "Enter follow up date",
-      type: "date",
+      label: "Follow Up ",
+      name: "follow_up",
+      placeholder: "Enter follow up date & time",
+      type: "datetime-local",
     },
-    {
-      control: addLeadsForm.control,
-      label: "Follow Up Time",
-      name: "follow_up_time",
-      placeholder: "Enter follow up time (24 hour format)",
-      type: "text",
-    },
-
     {
       control: addLeadsForm.control,
       label: "Stage",

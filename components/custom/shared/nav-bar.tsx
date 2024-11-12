@@ -1,4 +1,5 @@
 "use client";
+import { ROUTES } from "@/routes/routes";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -31,8 +32,8 @@ export default function Navbar({ className }: { className?: string }) {
         <div className="jusity-start mr-auto flex items-center gap-4">
           <SidebarTrigger />
           {/* creating heading for Leads  */}
-          {pathname === "/" && <GreetingTitle userName={userName} />}
-          {pathname === "/leads" && (
+          {pathname === ROUTES.HOME && <GreetingTitle userName={userName} />}
+          {pathname === ROUTES.LEADS && (
             <>
               <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
                 Leads
@@ -43,17 +44,17 @@ export default function Navbar({ className }: { className?: string }) {
               </Link>
             </>
           )}
-          {pathname === "/leads/follow-up-leads" && (
+          {pathname === ROUTES.FOLLOW_UP_LEADS && (
             <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
               Follow Up Leads
             </h1>
           )}
-          {pathname === "/leads/new-lead" && (
+          {pathname === ROUTES.NEW_LEADS && (
             <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
               Add New Lead
             </h1>
           )}
-          {/\/leads\/lead-detail\/\w+/.test(pathname) && (
+          {ROUTES.LEADS_DETAILS.test(pathname) && (
             <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
               Lead Details
             </h1>

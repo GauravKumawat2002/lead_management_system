@@ -1,14 +1,9 @@
 import { z } from "zod";
 
 const AddLeadsSchema = z.object({
-  budget_per_adult: z
-    .number()
-    .positive({ message: "Budget per adult expected" }),
+  budget_per_adult: z.string({ message: "Budget per adult expected" }),
 
-  budget_per_child: z
-    .number()
-    .nonnegative({ message: "Budget per child " })
-    .optional(), // Optional if no children
+  budget_per_child: z.string().optional(), // Optional if no children
 
   client_contact_no: z
     .string()
@@ -45,18 +40,11 @@ const AddLeadsSchema = z.object({
     .string()
     .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, { message: "Invalid time" }),
 
-  no_of_adults: z
-    .number()
-    .int()
-    .min(1, { message: "Must have at least 1 adult" }),
+  no_of_adults: z.string().min(1, { message: "Must have at least 1 adult" }),
 
-  no_of_children: z
-    .number()
-    .int()
-    .min(0, { message: "Number of children cannot be negative" })
-    .optional(),
+  no_of_children: z.string().min(0).optional(),
 
-  package: z
+  package_name: z
     .string()
     .min(3, { message: "Package name must be at least 3 characters" }),
 

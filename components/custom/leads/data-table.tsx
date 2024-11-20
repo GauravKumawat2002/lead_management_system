@@ -154,25 +154,23 @@ export function DataTable<TData, TValue>({
         <Table>
           <TableHeader className="bg-gray-200 dark:bg-slate-900">
             {table.getHeaderGroups().map((headerGroup) => (
-              <>
-                <TableRow
-                  key={headerGroup.id}
-                  className="hover:!bg-gray-200 dark:hover:!bg-slate-900"
-                >
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              </>
+              <TableRow
+                key={headerGroup.id}
+                className="hover:!bg-gray-200 dark:hover:!bg-slate-900"
+              >
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
             ))}
           </TableHeader>
           <TableBody>

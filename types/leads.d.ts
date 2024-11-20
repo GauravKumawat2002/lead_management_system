@@ -4,8 +4,7 @@ export global {
     AddLeadsForm,
     | "budget_per_adult"
     | "budget_per_child"
-    | "follow_up_date"
-    | "follow_up_time"
+    | "follow_up"
     | "no_of_adults"
     | "no_of_children"
     | "planned_travel_date"

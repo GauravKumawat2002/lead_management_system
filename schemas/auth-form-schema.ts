@@ -1,9 +1,7 @@
 import { z } from "zod";
 
 const signInSchema = z.object({
-  userName: z
-    .string()
-    .min(3, { message: "Username must be atleast 3 characters." }),
+  reference: z.string().email({ message: "Invalid email" }),
   password: z.string().min(8),
 });
 const signUpSchema = z

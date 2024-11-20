@@ -6,5 +6,6 @@ export global {
 
   interface AuthFormProps {
     type: FormType;
+    onSubmit: (data: FormSchema) => void;
   }
 }

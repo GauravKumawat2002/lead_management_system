@@ -2,8 +2,8 @@
 import { ROUTES } from "@/routes/routes";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Bell, icons, LogOut, Settings, User } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Bell, LogOut, Settings, User } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -12,15 +12,29 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { removeToken } from "@/lib/tokenStorage";
 
 // userName will come from DB
 const userName: string = "Gaurav Kumawat";
 export default function Navbar({ className }: { className?: string }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { state } = useSidebar();
+  const dropdownItems = [
+    { label: "Status" },
+    { label: "My Profile", route: "/profile", icon: User },
+    { label: "Settings", route: "/settings", icon: Settings },
+    {
+      label: "Logout",
+      icon: LogOut,
+      onClick: () => {
+        removeToken();
+        router.push(ROUTES.LOGOUT);
+      },
+    },
+  ];
   return (
     <header
       className={cn(
@@ -87,23 +101,21 @@ const GreetingTitle = ({ userName }: { userName: string }) => {
 // - Logout
 // - Status (active, idle) (will implement later)
 
-const dropdownItems = [
-  { label: "Status" },
-  { label: "My Profile", route: "/profile", icon: User },
-  { label: "Settings", route: "/settings", icon: Settings },
-  { label: "Logout", icon: LogOut },
-];
-
 export function UserDropdown({
   className,
   DropDownItems,
 }: {
   className?: string;
-  DropDownItems: typeof dropdownItems;
+  DropDownItems: {
+    label: string;
+    route?: string;
+    icon?: any;
+    onClick?: () => void;
+  }[];
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className={cn("", className)}>
         <User />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -117,7 +129,9 @@ export function UserDropdown({
             ) : (
               <>
                 {item.icon && <item.icon />}
-                <DropdownMenuLabel>{item.label}</DropdownMenuLabel>
+                <DropdownMenuLabel onClick={item.onClick}>
+                  {item.label}
+                </DropdownMenuLabel>
               </>
             )}
           </DropdownMenuItem>

@@ -21,8 +21,9 @@ import {
   SignInForm,
   SignUpForm,
 } from "@/schemas/auth-form-schema";
+import { ROUTES } from "@/routes/routes";
 
-export default function AuthForm({ type }: AuthFormProps) {
+export default function AuthForm({ type, onSubmit }: AuthFormProps) {
   const form = useForm<FormSchema>({
     resolver: zodResolver(type === "signIn" ? signInSchema : signUpSchema),
     defaultValues:
@@ -37,16 +38,9 @@ export default function AuthForm({ type }: AuthFormProps) {
       ? [
           {
             control: form.control,
-            label: "Username",
-            name: "userName",
-            placeholder: "Enter your username",
-            type: "text",
-          },
-          {
-            control: form.control,
             label: "Email",
-            name: "email",
-            placeholder: "Enter your email",
+            name: "reference",
+            placeholder: "Enter your e-mail",
             type: "text",
           },
           {
@@ -88,12 +82,6 @@ export default function AuthForm({ type }: AuthFormProps) {
           },
         ];
 
-  function onSubmit(data: FormSchema) {
-    // instead of this console.log, send the data via api to backend
-    console.log(data);
-    form.reset();
-  }
-
   return (
     <Card className="auth-form w-[80vw] md:w-[60vw] lg:w-[50vw]">
       <CardHeader>
@@ -134,14 +122,18 @@ export default function AuthForm({ type }: AuthFormProps) {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="">
+      <CardFooter className="flex flex-col gap-4">
+        or
+        <Button className="w-fit" disabled variant={"outline"}>
+          Continue with Google
+        </Button>
         <p className="mx-auto text-sm text-gray-500">
           {type === "signIn" ? (
             <>
               Don't have an account?{" "}
               <Link
                 className="text-primary hover:text-primary/80"
-                href="/sign-up"
+                href={ROUTES.SIGNUP}
               >
                 Sign Up
               </Link>
@@ -151,7 +143,7 @@ export default function AuthForm({ type }: AuthFormProps) {
               Already have an account?
               <Link
                 className="text-primary hover:text-primary/80"
-                href="/sign-in"
+                href={ROUTES.SIGNIN}
               >
                 Sign In
               </Link>
@@ -162,3 +154,6 @@ export default function AuthForm({ type }: AuthFormProps) {
     </Card>
   );
 }
+
+// if at signIn page then continue with google should logIn the user and redirect to home page
+// if at signUp page then continue with google should register the user via google api and redirect to home page

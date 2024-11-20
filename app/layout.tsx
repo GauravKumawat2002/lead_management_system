@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 export const metadata: Metadata = {
   title: "Lead Management System",
   description: "A lead management system for travel agencies",
@@ -16,6 +17,7 @@ export default function RootLayout({
         className={`flex min-h-screen items-center justify-center !p-5 !pt-3 antialiased`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

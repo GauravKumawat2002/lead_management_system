@@ -1,9 +1,12 @@
+import { ROUTES } from "@/routes/routes";
+import Cookies from "universal-cookie";
+const cookies = new Cookies(null, { path: ROUTES.HOME });
 export function storeToken(token: string) {
-  localStorage.setItem("jwtToken", token);
+  cookies.set("jwtToken", token);
 }
 export function getToken(): string | null {
-  return localStorage.getItem("jwtToken");
+  return cookies.get("jwtToken");
 }
 export function removeToken() {
-  localStorage.removeItem("jwtToken");
+  return cookies.remove("jwtToken");
 }

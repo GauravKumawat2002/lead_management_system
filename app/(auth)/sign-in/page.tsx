@@ -12,9 +12,10 @@ import { useCallback } from "react";
 const errorMessages = {
   "Access denied !! User not verified with Reference : ":
     "Access Denied!! Please verify your email to login",
-  "Access denied !! Error: Invalid Username or Password !!":
-    "Access Denied!! Invalid Username or Password",
-  "Error: User not found by Email: ": "User not found by Email. Please Sign Up",
+  "Error: Invalid Username or Password !!":
+    "Access Denied!! Invalid email or Password",
+  "Error: unknown error": "Access Denied!! Please verify your email to login",
+  // "Error: User not found by Email: ": "User not found by Email. Please Sign Up",
 };
 export default function SignIn() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function SignIn() {
         response?.jwtToken && storeToken(response?.jwtToken);
         router.push(ROUTES.HOME);
       } catch (error: any) {
+        // console.log(error);
         toast({
           title: "Error",
           description: getErrorMessage(error.data, errorMessages),

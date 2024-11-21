@@ -5,7 +5,6 @@ import {
   AddLeadsSchema,
   AddLeadsForm as AddLeadsFormSchema,
 } from "@/schemas/add-leads-form-schema";
-
 import CustomFormField from "../../shared/custom-form-field";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -16,10 +15,21 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/routes";
-export default function AddLeads() {
+
+export default function AddLeads({
+  onSubmit,
+}: {
+  onSubmit: (
+    data: AddLeadsFormSchema,
+    resetForm: () => void,
+    navigateRoute?: any,
+  ) => void;
+}) {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const addLeadsForm = useForm<AddLeadsFormSchema>({
     resolver: zodResolver(AddLeadsSchema),
     //
@@ -40,26 +50,6 @@ export default function AddLeads() {
       stage: undefined,
       status: undefined,
     },
-
-    // ONLY FOR TESTING PURPOSE
-    // defaultValues: {
-    //   budget_per_adult: "20,000",
-    //   budget_per_child: "0",
-    //   client_contact_no: "8769475206",
-    //   client_email_id: "gauravkumawat830@gmail.com",
-    //   client_name: "Gaurav Kumawat",
-    //   enquiry_type: "other",
-    //   executive: "Jitendra Ghodela",
-    //   follow_up_date: new Date("2024-12-12"),
-    //   follow_up_time: "12:45",
-    //   no_of_adults: "2",
-    //   no_of_children: "0",
-    //   package_name: "honeymoon package",
-    //   planned_travel_date: new Date("2024-12-12"),
-    //   stage: "converted to hot deals",
-    //   status: "converted",
-    //   destination: "Goa",
-    // },
   });
 
   const primaryFormFields = [
@@ -83,6 +73,7 @@ export default function AddLeads() {
       name: "client_email_id",
       placeholder: "Enter client email",
       type: "text",
+      required: false,
     },
     {
       control: addLeadsForm.control,
@@ -165,6 +156,7 @@ export default function AddLeads() {
       name: "planned_travel_date",
       placeholder: "Enter planned travel date",
       type: "date",
+      required: false,
     },
   ];
   const budgetFormFields = [
@@ -174,6 +166,7 @@ export default function AddLeads() {
       name: "destination",
       placeholder: "Enter destination",
       type: "text",
+      required: false,
     },
     {
       control: addLeadsForm.control,
@@ -195,6 +188,7 @@ export default function AddLeads() {
       name: "no_of_children",
       placeholder: "Enter no of children",
       type: "text",
+      required: false,
     },
     {
       control: addLeadsForm.control,
@@ -202,14 +196,9 @@ export default function AddLeads() {
       name: "budget_per_child",
       placeholder: "Enter budget per child",
       type: "text",
+      required: false,
     },
   ];
-
-  function onSubmit(data: AddLeadsFormSchema) {
-    console.log(data);
-    addLeadsForm.reset();
-    router.push(ROUTES.LEADS);
-  }
 
   return (
     <Card className="sticky top-80">
@@ -217,8 +206,14 @@ export default function AddLeads() {
         <CardTitle className="text-xl uppercase">Add Lead</CardTitle>
       </CardHeader>
       <Form {...addLeadsForm}>
-        <form onSubmit={addLeadsForm.handleSubmit(onSubmit)} method="POST">
-          <CardContent className="flex justify-between gap-4">
+        <form
+          onSubmit={addLeadsForm.handleSubmit((data) => {
+            !isSubmitting && setIsSubmitting(true);
+            onSubmit(data, addLeadsForm.reset);
+          })}
+          method="POST"
+        >
+          <CardContent className="flex flex-col justify-between gap-4 lg:flex-row">
             <div className="basis-1/3">
               <CardHeader className="pl-0 pt-0 text-primary">
                 <CardTitle>PRIMARY DETAILS</CardTitle>
@@ -232,6 +227,7 @@ export default function AddLeads() {
                   options={field.options}
                   placeholder={field.placeholder}
                   type={field.type}
+                  required={field.required}
                 />
               ))}
             </div>
@@ -248,6 +244,7 @@ export default function AddLeads() {
                   options={field.options}
                   placeholder={field.placeholder}
                   type={field.type}
+                  required={field.required}
                 />
               ))}
             </div>
@@ -263,12 +260,24 @@ export default function AddLeads() {
                   name={field.name as keyof AddLeadsFormSchema}
                   placeholder={field.placeholder}
                   type={field.type}
+                  required={field.required}
                 />
               ))}
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="w-full lg:w-fit">
+              Add Lead
+            </Button>
+            {isSubmitting && (
+              <Button
+                variant={"secondary"}
+                onClick={() => router.push(ROUTES.LEADS)}
+                className="ml-4 w-full lg:w-fit"
+              >
+                View All Leads
+              </Button>
+            )}
           </CardFooter>
         </form>
       </Form>

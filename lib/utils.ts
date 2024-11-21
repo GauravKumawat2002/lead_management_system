@@ -11,7 +11,5 @@ export function getErrorMessage(
   const errorMessageKey = Object.keys(errorMessages).find((key) =>
     errorData.includes(key),
   );
-  return errorMessageKey
-    ? errorMessages[errorMessageKey]
-    : "An unknown error occurred";
+  return errorMessageKey ? errorMessages[errorMessageKey] : errorData;
 }

@@ -1,7 +1,12 @@
+"use client";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import Sidebar from "@/components/custom/shared/side-bar";
 import Navbar from "@/components/custom/shared/nav-bar";
 import { ThemeProvider } from "next-themes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -20,7 +25,10 @@ export default function RootLayout({
           <Sidebar />
           <main>
             <Navbar className="sticky top-0 mb-4" />
-            {children}
+            <QueryClientProvider client={queryClient}>
+              <ReactQueryDevtools />
+              {children}
+            </QueryClientProvider>
           </main>
         </SidebarProvider>
       </ThemeProvider>

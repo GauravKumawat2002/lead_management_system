@@ -1,9 +1,9 @@
+"use server";
 import axios from "axios";
-import { getToken } from "@/lib/tokenStorage";
+import { cookies } from "next/headers";
 
 const httpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
-  // timeout: 20000, // Request timeout in milliseconds
   headers: {
     "Content-Type": "application/json",
     accept: "application/json",
@@ -13,7 +13,10 @@ const httpClient = axios.create({
 // Add a request interceptor
 httpClient.interceptors.request.use(
   (config) => {
-    config.headers.Authorization = `Bearer ${getToken()}`;
+    const token = cookies().get("jwtToken")?.value;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {

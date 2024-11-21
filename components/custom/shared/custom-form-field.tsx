@@ -31,9 +31,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import DateTimeInput from "@/components/ui/date-time-input";
 
 interface CustomFormFieldProps<T extends FieldValues> {
+  required?: boolean;
   control: Control<T>;
   label: string;
   name: FieldPath<T>;
@@ -59,6 +59,7 @@ export default function CustomFormField<
   options,
   placeholder,
   type,
+  required = true,
 }: CustomFormFieldProps<T>) {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
@@ -76,7 +77,7 @@ export default function CustomFormField<
             className="form-label mb-4 text-gray-700 dark:text-gray-200"
             htmlFor={label}
           >
-            {label} <span className="text-red-500">*</span>
+            {label} {required && <span className="text-red-500">*</span>}
           </FormLabel>{" "}
           {type === "date" && (
             <Popover>

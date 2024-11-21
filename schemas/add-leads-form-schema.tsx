@@ -12,8 +12,10 @@ const AddLeadsSchema = z.object({
     .regex(/^\d+$/, { message: "Phone number should only contain digits" }),
 
   client_email_id: z
-    .string()
-    .email({ message: "Invalid Email address" })
+    .union([
+      z.string().email({ message: "Invalid email format" }),
+      z.string().length(0),
+    ])
     .optional(), // Optional if it’s not always required
 
   client_name: z

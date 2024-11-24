@@ -9,8 +9,8 @@ type BaseProps = {
 };
 type ViewLeadProps = BaseProps & {
   cardType: "viewLead";
-  LeadStage: LeadsData["stage"];
-  LeadStatus: LeadsData["status"];
+  LeadStage: LeadsTableData["stage"];
+  LeadStatus: LeadsTableData["status"];
 };
 type ViewCostomerProps = BaseProps & {
   cardType: "viewCostomer";
@@ -44,7 +44,7 @@ export default function LeadActions({
             {props.cardType === "viewLead" && (
               <>
                 Stage:{" "}
-                <span className="text-blue-500 dark:text-blue-300">
+                <span className="capitalize text-blue-500 dark:text-blue-300">
                   {props.LeadStage}
                 </span>
               </>
@@ -54,7 +54,7 @@ export default function LeadActions({
             {props.cardType === "viewLead" && (
               <>
                 Status:{" "}
-                <span className="text-blue-500 dark:text-blue-300">
+                <span className="capitalize text-blue-500 dark:text-blue-300">
                   {props.LeadStatus}
                 </span>
               </>

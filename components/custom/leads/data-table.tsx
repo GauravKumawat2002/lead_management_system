@@ -9,6 +9,7 @@ import {
   getSortedRowModel,
   useReactTable,
   VisibilityState,
+  Row,
 } from "@tanstack/react-table";
 
 import {
@@ -52,13 +53,15 @@ import { useState } from "react";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/routes";
+import { deleteLeadByIds } from "@/services/leadsService";
+import { handleButtonInteraction } from "@/lib/utils";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends LeadsTableData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends LeadsTableData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -79,6 +82,7 @@ export function DataTable<TData, TValue>({
     onRowSelectionChange: setRowSelection,
     state: { sorting, columnVisibility, rowSelection },
   });
+  const selectedRows = table.getFilteredSelectedRowModel().rows;
 
   return (
     <Card
@@ -97,15 +101,21 @@ export function DataTable<TData, TValue>({
         </CardTitle>
         <div>
           <Button
-            onClick={() => router.push(ROUTES.NEW_LEADS)}
+            onClick={async () => {
+              const path = await handleButtonInteraction("Add New", "Lead", []);
+              router.push(path as string);
+            }}
             className="mr-2"
           >
-            Add New Lead
+            Add New
             <PlusSquare className="ml-2 h-4 w-4" />
           </Button>
           <Button
             variant={"destructive"}
-            // onClick={() => router.push("/leads/new-lead")} // will add a feature later that will do a post request to the server that will delete the selected fields from the database
+            onClick={() => {
+              handleButtonInteraction("Delete", "Lead", selectedRows);
+              router.refresh();
+            }}
             className="mr-2"
           >
             Delete Selected
@@ -126,9 +136,7 @@ export function DataTable<TData, TValue>({
                     .getAllColumns()
                     .filter(
                       (column) =>
-                        column.getCanHide() &&
-                        column.id !== "actions" &&
-                        column.id !== "serial_no",
+                        column.getCanHide() && column.id !== "actions",
                     )
                     .map((column) => {
                       return (

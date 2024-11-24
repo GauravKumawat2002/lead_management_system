@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const AddLeadsSchema = z.object({
-  budget_per_adult: z.string({ message: "Budget per adult expected" }),
+  budget_per_adult: z.string().min(1, { message: "Budget per adult expected" }),
 
   budget_per_child: z.string().optional(), // Optional if no children
 

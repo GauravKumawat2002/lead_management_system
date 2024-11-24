@@ -158,8 +158,6 @@ export default function AddLeads({
       type: "date",
       required: false,
     },
-  ];
-  const budgetFormFields = [
     {
       control: addLeadsForm.control,
       label: "Destination",
@@ -168,6 +166,8 @@ export default function AddLeads({
       type: "text",
       required: false,
     },
+  ];
+  const budgetFormFields = [
     {
       control: addLeadsForm.control,
       label: "No of Adults",

@@ -1,8 +1,8 @@
 import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
-import { addLead } from "@/services/leadsService";
-import { useMutation } from "@tanstack/react-query";
+import { addLead, getAllLeads } from "@/services/leadsService";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-export function useAddLeads() {
+function useAddLeads() {
   return useMutation({
     mutationKey: ["addLeads"],
     mutationFn: async (data: AddLeadsForm) => {
@@ -16,3 +16,14 @@ export function useAddLeads() {
     },
   });
 }
+
+function useGetAllLeads() {
+  return useQuery({
+    queryKey: ["getAllLeads"],
+    queryFn: async () => {
+      return await getAllLeads();
+    },
+  });
+}
+
+export { useAddLeads, useGetAllLeads };

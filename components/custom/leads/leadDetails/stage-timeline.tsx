@@ -3,9 +3,9 @@ import { ArrowBigDown } from "lucide-react";
 export default function StogeTimeline({
   stage,
 }: {
-  stage: LeadsData["stage"];
+  stage: LeadsTableData["stage"];
 }) {
-  const stages: LeadsData["stage"][] = [
+  const stages: LeadsTableData["stage"][] = [
     "not answer",
     "not interested",
     "cold",

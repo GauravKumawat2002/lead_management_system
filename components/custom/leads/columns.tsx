@@ -11,35 +11,44 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
-const actions = ["View Lead", "Delete Lead", "Update Lead"];
-
-export const columns: ColumnDef<LeadsData>[] = [
+import { deleteLeadByIds } from "@/services/leadsService";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/routes/routes";
+export const columns: ColumnDef<LeadsTableData>[] = [
   {
     id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        className="mr-2 flex self-center"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        className="mr-2 flex self-center"
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
+    header: ({ table }) => {
+      const allSelectedIds: string[] = table
+        .getSelectedRowModel()
+        .rows.map((row) => row.getValue("leadId"));
+      console.log("All selected ids", allSelectedIds);
+      return (
+        <Checkbox
+          className="mr-2 flex self-center"
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <Checkbox
+          className="mr-2 flex self-center"
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "client_name",
+    accessorKey: "clientName",
     header: ({ column }) => (
       <Button
         variant="link"
@@ -51,16 +60,16 @@ export const columns: ColumnDef<LeadsData>[] = [
     ),
   },
   {
-    accessorKey: "id",
+    accessorKey: "leadId",
     header: () => <div className="font-semibold text-primary">ID</div>,
   },
 
   {
-    accessorKey: "client_email_id",
+    accessorKey: "clientEmailId",
     header: () => <div className="font-semibold text-primary">Email</div>,
   },
   {
-    accessorKey: "client_contact_no",
+    accessorKey: "clientContactNo",
     header: () => <div className="font-semibold text-primary">Phone</div>,
   },
   {
@@ -77,18 +86,20 @@ export const columns: ColumnDef<LeadsData>[] = [
     header: () => <div className="font-semibold text-primary">Status</div>,
   },
   {
-    accessorKey: "enquiry_type",
+    accessorKey: "enquiryType",
     header: () => (
       <div className="font-semibold text-primary">Enquiry Type</div>
     ),
   },
   {
-    accessorKey: "package_name",
+    accessorKey: "packageName",
     header: () => <div className="font-semibold text-primary">Package</div>,
   },
   {
     id: "actions",
-    cell: () => {
+    cell: ({ row }) => {
+      const router = useRouter();
+      const id: string = row.getValue("leadId");
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -100,9 +111,31 @@ export const columns: ColumnDef<LeadsData>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {actions.map((action) => (
-              <DropdownMenuItem key={action}>{action}</DropdownMenuItem>
-            ))}
+            <DropdownMenuItem
+              key={"View Lead"}
+              onClick={() => {
+                router.push(`${ROUTES.LEADS}/lead-detail/${id}`);
+              }}
+            >
+              View Lead
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              key={"Delete Lead"}
+              onClick={async () => {
+                await deleteLeadByIds([id]);
+                router.refresh();
+              }}
+            >
+              Delete Lead
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              key={"Update Lead"}
+              onClick={() => {
+                console.log("Update Lead");
+              }}
+            >
+              Update Lead
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

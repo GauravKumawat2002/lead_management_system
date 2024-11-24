@@ -34,10 +34,13 @@ export default function StogeTimeline({
             }`}
           >
             <div className="flex items-center self-start text-center"></div>
-            <span className="mx-auto">{s}</span>
-            {index !== stages.length - 1 && (
-              <ArrowBigDown className="h-8 w-8" />
+            {index !== stages.length + 1 && (
+              <ArrowBigDown
+                className="h-8 w-8"
+                fill={s === stage ? "#2563eb" : "none"}
+              />
             )}
+            <span className="mx-auto text-center">{s}</span>
           </li>
         ))}
       </ul>

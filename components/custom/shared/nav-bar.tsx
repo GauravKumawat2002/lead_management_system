@@ -21,6 +21,7 @@ const userName: string = "Gaurav Kumawat";
 export default function Navbar({ className }: { className?: string }) {
   const pathname = usePathname();
   const router = useRouter();
+
   const { state } = useSidebar();
   const dropdownItems = [
     { label: "Status" },
@@ -68,9 +69,14 @@ export default function Navbar({ className }: { className?: string }) {
               Add New Lead
             </h1>
           )}
-          {ROUTES.LEADS_DETAILS.test(pathname) && (
+          {pathname.startsWith(ROUTES.LEADS_DETAILS("LD-")) && (
             <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
               Lead Details
+            </h1>
+          )}
+          {pathname.startsWith(ROUTES.UPDATE_LEAD("LD-")) && (
+            <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
+              Update Lead
             </h1>
           )}
         </div>

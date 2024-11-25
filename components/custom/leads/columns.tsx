@@ -114,7 +114,7 @@ export const columns: ColumnDef<LeadsTableData>[] = [
             <DropdownMenuItem
               key={"View Lead"}
               onClick={() => {
-                router.push(`${ROUTES.LEADS}/lead-detail/${id}`);
+                router.push(ROUTES.LEADS_DETAILS(id));
               }}
             >
               View Lead
@@ -131,7 +131,7 @@ export const columns: ColumnDef<LeadsTableData>[] = [
             <DropdownMenuItem
               key={"Update Lead"}
               onClick={() => {
-                console.log("Update Lead");
+                router.push(ROUTES.UPDATE_LEAD(id));
               }}
             >
               Update Lead

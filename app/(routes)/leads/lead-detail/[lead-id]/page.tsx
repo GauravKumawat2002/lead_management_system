@@ -1,6 +1,6 @@
 import LeadActions from "@/components/custom/shared/summary-card-with-actions";
 import StageTimeline from "@/components/custom/leads/leadDetails/stage-timeline";
-import React from "react";
+import { useState } from "react";
 import DetailCard from "@/components/custom/shared/detail-card";
 import { getLeadById } from "@/services/leadsService";
 
@@ -11,10 +11,12 @@ export default async function page({
 }) {
   const leadId = params["lead-id"];
   let leadDetail: LeadData | undefined;
+  // const [prvRecord, setPrvRecord] = useState(null);
 
   try {
     const response = await getLeadById(leadId);
     leadDetail = response.data;
+    // setPrvRecord(leadDetail.prvRecord);
   } catch (error) {
     console.error("Error fetching lead by id", error);
   }
@@ -36,9 +38,9 @@ export default async function page({
           className: "sticky top-12",
         }}
       />
-      <div className="flex gap-8">
+      <div className="flex gap-4">
         <StageTimeline stage={leadDetail.stage} />
-        <div className="grid w-full grid-cols-2 gap-8">
+        <div className="grid w-full grid-cols-2 gap-4">
           <DetailCard
             cardHeading="Executive Details"
             cardData={{

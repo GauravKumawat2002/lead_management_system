@@ -1,16 +1,6 @@
 import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
-type ConvertSnakeToCamel<StringType extends string> =
-  StringType extends `${infer FirstPart}_${infer RestParts}`
-    ? `${FirstPart}${Capitalize<ConvertSnakeToCamel<RestParts>>}`
-    : StringType;
 
-type ConvertObjectKeysToCamel<ObjectType> = {
-  [KeyName in keyof ObjectType as ConvertSnakeToCamel<
-    string & KeyName
-  >]: ObjectType[KeyName];
-};
-
-export global {
+export declare global {
   type LeadsTableData = ConvertObjectKeysToCamel<
     Omit<
       AddLeadsForm,

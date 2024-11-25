@@ -2,17 +2,12 @@
 
 import AuthForm from "@/components/custom/auth/auth-form";
 import { useToast } from "@/hooks/use-toast";
-import { getErrorMessage } from "@/lib/utils";
 import { ROUTES } from "@/routes/routes";
 import { SignUpForm } from "@/schemas/auth-form-schema";
 import { signUpService } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 
-const errorMessages = {
-  "Warning: Email already exists, try login !!!":
-    "Email already exists, try login !!!",
-};
 export default function Page() {
   const router = useRouter();
   const { toast } = useToast();
@@ -35,7 +30,7 @@ export default function Page() {
         toast({
           title: "Error",
           variant: "destructive",
-          description: getErrorMessage(error.data, errorMessages),
+          description: error.data,
           className: "text-lg font-semibold",
         });
       }

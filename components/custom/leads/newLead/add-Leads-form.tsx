@@ -18,38 +18,52 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/routes";
+import { camelToSnake, convertToDatetimeLocal } from "@/lib/utils";
 
 export default function AddLeads({
   onSubmit,
+  defaultValues,
 }: {
   onSubmit: (
     data: AddLeadsFormSchema,
     resetForm: () => void,
     navigateRoute?: any,
   ) => void;
+  defaultValues?: ConvertObjectKeysToCamel<AddLeadsFormSchema>;
 }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const addLeadsForm = useForm<AddLeadsFormSchema>({
     resolver: zodResolver(AddLeadsSchema),
-    //
-    defaultValues: {
-      budget_per_adult: "",
-      budget_per_child: "",
-      client_contact_no: "",
-      client_email_id: "",
-      client_name: "",
-      destination: "",
-      enquiry_type: undefined,
-      executive: "",
-      follow_up: "",
-      no_of_adults: "",
-      no_of_children: "",
-      package_name: "",
-      planned_travel_date: undefined,
-      stage: undefined,
-      status: undefined,
-    },
+    defaultValues: defaultValues
+      ? {
+          ...camelToSnake(defaultValues),
+          follow_up: convertToDatetimeLocal(defaultValues.followUp),
+          planned_travel_date: defaultValues.plannedTravelDate
+            ? new Date(defaultValues.plannedTravelDate)
+            : undefined,
+          budget_per_adult: defaultValues.budgetPerAdult?.toString(),
+          budget_per_child: defaultValues.budgetPerChild?.toString(),
+          no_of_adults: defaultValues.noOfAdults?.toString(),
+          no_of_children: defaultValues.noOfChildren?.toString(),
+        }
+      : {
+          budget_per_adult: "",
+          budget_per_child: "",
+          client_contact_no: "",
+          client_email_id: "",
+          client_name: "",
+          destination: "",
+          enquiry_type: undefined,
+          executive: "",
+          follow_up: "",
+          no_of_adults: "",
+          no_of_children: "",
+          package_name: "",
+          planned_travel_date: undefined,
+          stage: undefined,
+          status: undefined,
+        },
   });
 
   const primaryFormFields = [
@@ -203,7 +217,9 @@ export default function AddLeads({
   return (
     <Card className="sticky top-80">
       <CardHeader>
-        <CardTitle className="text-xl uppercase">Add Lead</CardTitle>
+        <CardTitle className="text-xl uppercase">
+          {defaultValues ? "Update Lead" : "Add Lead"}
+        </CardTitle>
       </CardHeader>
       <Form {...addLeadsForm}>
         <form
@@ -267,7 +283,7 @@ export default function AddLeads({
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full lg:w-fit">
-              Add Lead
+              {defaultValues ? "Update Lead" : "Add Lead"}
             </Button>
             {isSubmitting && (
               <Button

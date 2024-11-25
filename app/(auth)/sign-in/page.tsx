@@ -2,44 +2,43 @@
 import AuthForm from "@/components/custom/auth/auth-form";
 import { useToast } from "@/hooks/use-toast";
 import { storeToken } from "@/lib/tokenStorage";
-import { getErrorMessage } from "@/lib/utils";
 import { ROUTES } from "@/routes/routes";
 import { SignInForm } from "@/schemas/auth-form-schema";
 import { signInService } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
-const errorMessages = {
-  "Access denied !! User not verified with Reference : ":
-    "Access Denied!! Please verify your email to login",
-  "Error: Invalid Username or Password !!":
-    "Access Denied!! Invalid email or Password",
-  "Error: unknown error": "Access Denied!! Please verify your email to login",
-  // "Error: User not found by Email: ": "User not found by Email. Please Sign Up",
-};
+// "Error: User not found by Email: ": "User not found by Email. Please Sign Up",
+// refreshTOken Api: Error: Invalid Refresh Token
+// this response is for all api that has jwt token in header or autherror
+// Access denied !! Full authentication is required to access this resource
+// SignUP: Email already exists, try login !!!
+// get lead BY ID: Error: Lead not found
+
 export default function SignIn() {
   const router = useRouter();
   const { toast } = useToast();
   const onSubmit = useCallback(
     async (data: FormSchema) => {
       try {
-        const { data: response, error } = await signInService(
-          data as SignInForm,
-        );
-        if (error) throw error;
-        response?.jwtToken && storeToken(response?.jwtToken);
-        router.push(ROUTES.HOME);
+        const response = await signInService(data as SignInForm);
+        if ("error" in response) {
+          throw response.error;
+        }
+        if ("data" in response) {
+          storeToken(response.data.jwtToken);
+          router.push(ROUTES.HOME);
+        }
       } catch (error: any) {
-        // console.log(error);
         toast({
           title: "Error",
-          description: getErrorMessage(error.data, errorMessages),
+          description: error.data,
           variant: "destructive",
           className: "text-xl font-semibold",
         });
       }
     },
-    [router],
+    [router, toast],
   );
 
   return (
@@ -48,3 +47,6 @@ export default function SignIn() {
     </div>
   );
 }
+// Possible error messages
+// 1. Error: Invalid JWTHeader
+// 2. User not Signed-in!!! -> Unable to sign-in! Please try again.Unable to sign-in! Please try again.

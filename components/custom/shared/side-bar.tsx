@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import sideBarRoutes from "@/routes/side-bar-routes";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 const companyLogo = "SERP DIGI SOLUTIONS";
 const items = [
   {
@@ -28,8 +28,8 @@ const items = [
 ];
 
 export default function AppSidebar() {
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
-
+  const pathname = usePathname();
+  console.log(pathname.split("/")[2]);
   return (
     <Sidebar variant="floating" collapsible="icon">
       <SidebarContent>
@@ -42,15 +42,13 @@ export default function AppSidebar() {
                   <SidebarMenuButton
                     asChild
                     className={
-                      selectedItem === item.title
+                      pathname === item.url ||
+                      pathname.startsWith((item.url as string) + "/")
                         ? "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary dark:hover:text-primary-foreground dark:focus:bg-primary dark:focus:text-primary-foreground"
                         : ""
                     }
                   >
-                    <Link
-                      href={item.url as string}
-                      onClick={() => setSelectedItem(item.title as string)}
-                    >
+                    <Link href={item.url as string}>
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>

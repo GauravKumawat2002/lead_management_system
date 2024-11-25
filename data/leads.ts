@@ -1,5 +1,5 @@
 import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
-import { addLead, getAllLeads } from "@/services/leadsService";
+import { addLead, getAllLeads, getLeadById } from "@/services/leadsService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 function useAddLeads() {
@@ -26,4 +26,13 @@ function useGetAllLeads() {
   });
 }
 
-export { useAddLeads, useGetAllLeads };
+function useGetLeadById(leadId: string) {
+  return useQuery({
+    queryKey: ["getLeadById", leadId],
+    queryFn: async () => {
+      return await getLeadById(leadId);
+    },
+  });
+}
+
+export { useAddLeads, useGetAllLeads, useGetLeadById };

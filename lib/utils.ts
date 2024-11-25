@@ -4,10 +4,10 @@ import { Row } from "@tanstack/react-table";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
+function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-export function getErrorMessage(
+function getErrorMessage(
   errorData: string,
   errorMessages: { [key: string]: string },
 ): string {
@@ -16,7 +16,24 @@ export function getErrorMessage(
   );
   return errorMessageKey ? errorMessages[errorMessageKey] : errorData;
 }
-export async function handleButtonInteraction<TData extends LeadsTableData>(
+
+function camelToSnake<T extends object>(obj: T): ConvertObjectKeysToSnake<T> {
+  if (!obj || typeof obj !== "object")
+    return obj as ConvertObjectKeysToSnake<T>;
+
+  if (Array.isArray(obj)) {
+    return obj.map((item) => camelToSnake(item)) as ConvertObjectKeysToSnake<T>;
+  }
+
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [
+      key.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`),
+      camelToSnake(value),
+    ]),
+  ) as ConvertObjectKeysToSnake<T>;
+}
+
+async function handleButtonInteraction<TData extends LeadsTableData>(
   action: "Delete" | "Add New",
   type: "Lead" | "Itinary",
   selectedRows: Row<TData>[],
@@ -50,3 +67,17 @@ export async function handleButtonInteraction<TData extends LeadsTableData>(
     console.log("Unsuported type", type);
   }
 }
+function convertToDatetimeLocal(datetime: string) {
+  const date = new Date(datetime);
+  const offset = date.getTimezoneOffset();
+  const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+  return adjustedDate.toISOString().slice(0, 16);
+}
+
+export {
+  camelToSnake,
+  handleButtonInteraction,
+  getErrorMessage,
+  cn,
+  convertToDatetimeLocal,
+};

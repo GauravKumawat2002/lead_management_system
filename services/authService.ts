@@ -5,11 +5,22 @@ import { cookies } from "next/headers";
 
 interface SignInResponse {
   jwtToken: string;
+  refreshToken: string;
   reference: string;
 }
 type ISignInResponse =
   | { data: SignInResponse }
   | { error: { data: "IDFK"; status: number } };
+
+interface RefreshTokenResponse {
+  jwtToken: string;
+}
+interface RefreshTokenError {
+  data: string;
+  status: number;
+}
+
+type IRefreshTokenResponse = RefreshTokenResponse | RefreshTokenError;
 
 async function signUpService(data: Omit<SignUpForm, "confirmPassword">) {
   try {
@@ -25,21 +36,6 @@ async function signUpService(data: Omit<SignUpForm, "confirmPassword">) {
 async function signInService(data: SignInForm): Promise<ISignInResponse> {
   try {
     const response = await httpClient.post("/auth/signin", data);
-    const token = response.data.jwtToken;
-    const decodedToken = JSON.parse(atob(token.split(".")[1]));
-    const decodedTokenExpiry = decodedToken.exp * 1000;
-    const remainingTime = Math.floor((decodedTokenExpiry - Date.now()) / 1000);
-
-    if (response.data.jwtToken) {
-      const cookiesStore = cookies();
-      cookiesStore.set("jwtToken", response.data.jwtToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: remainingTime,
-        path: "/",
-      });
-    }
     return { data: response.data };
   } catch (error: any) {
     return {
@@ -48,17 +44,35 @@ async function signInService(data: SignInForm): Promise<ISignInResponse> {
   }
 }
 
-export { signUpService, signInService };
+async function refreshTokenService(): Promise<IRefreshTokenResponse> {
+  try {
+    const cookieStore = cookies();
+    const response = await httpClient.post("/auth/refresh-token", null, {
+      headers: {
+        Authorization: `Bearer ${cookieStore.get("refreshToken")?.value}`,
+      },
+    });
+    return { jwtToken: response.data.jwtToken };
+  } catch (error: any) {
+    return {
+      data: error.response.data,
+      status: error.response.status,
+    };
+  }
+}
+async function logOutService() {
+  try {
+    const cookieStore = cookies();
+    const response = await httpClient.post("/auth/logout", null, {
+      headers: {
+        Authorization: `Bearer ${cookieStore.get("jwtToken")?.value}`,
+      },
+    });
 
-// Maybe not able to serialize
-// Only can return things that are "serializable"
-// Meaning No Errors, Only Objects/Arrays/Primitives
-// Otherwise it'll show 500
+    return { data: response.data, status: response.status };
+  } catch (error: any) {
+    return { data: error.response.data, status: error.response };
+  }
+}
 
-//Me:-> and returning a custom error messages were coausing the trouble of 500 ?
-// there is no concept of HTTP statuses in case of server functions Just Objects and Values that's it.
-// If you can return an object that can be serialized, you're good to go
-// Just encode your error message in the payload (return value)
-
-// return the messages based on conditions (if that's what you'd like to do.)
-// Serialization failed == 500 Error
+export { signUpService, signInService, refreshTokenService, logOutService };

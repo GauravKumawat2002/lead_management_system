@@ -1,12 +1,30 @@
 import { ROUTES } from "@/routes/routes";
 import Cookies from "universal-cookie";
 const cookies = new Cookies(null, { path: ROUTES.HOME });
-export function storeToken(token: string) {
-  cookies.set("jwtToken", token);
+function setTokenCookie(
+  tokenName: string,
+  tokenValue: string,
+  remainingTime: number,
+) {
+  cookies.set(tokenName, tokenValue, {
+    httpOnly: false,
+    secure: true,
+    sameSite: "strict",
+    maxAge: remainingTime,
+  });
 }
-export function getToken(): string | null {
-  return cookies.get("jwtToken");
+function getToken(tokenName: string) {
+  return cookies.get(tokenName);
 }
-export function removeToken() {
-  return cookies.remove("jwtToken");
+function removeToken(tokenName: string) {
+  return cookies.remove(tokenName);
 }
+function extractTokenExpirationTime(jwtToken: string) {
+  const decodedToken = JSON.parse(atob(jwtToken.split(".")[1]));
+  const decodedTokenExpiry = decodedToken.exp * 1000;
+  const remainingTimeToken = Math.floor(
+    (decodedTokenExpiry - Date.now()) / 1000,
+  );
+  return remainingTimeToken;
+}
+export { setTokenCookie, getToken, removeToken, extractTokenExpirationTime };

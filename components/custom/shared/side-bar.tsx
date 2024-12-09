@@ -29,7 +29,6 @@ const items = [
 
 export default function AppSidebar() {
   const pathname = usePathname();
-  console.log(pathname.split("/")[2]);
   return (
     <Sidebar variant="floating" collapsible="icon">
       <SidebarContent>

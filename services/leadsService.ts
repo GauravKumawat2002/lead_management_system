@@ -58,14 +58,14 @@ async function addLead(lead: AddLeadsForm): Promise<AddLeadsResponse> {
 async function getAllLeads(): Promise<GetAllLeadsResponse> {
   try {
     const response = await httpClient.get("/leads/fetch");
-    console.dir(response.data, { depth: null });
+    // console.dir(response.data, { depth: null });
     return {
       data: response.data,
       status: response.status,
       statusText: response.statusText,
     };
   } catch (error: any) {
-    console.error(error);
+    // console.error(error);
     return { data: error.response.data, status: error.response.status };
   }
 }
@@ -125,6 +125,21 @@ async function deleteLeadByIds(
     return { data: error.response.data, status: error.response.status };
   }
 }
+async function updateLeadById(leadId: string, lead: AddLeadsForm) {
+  try {
+    const response = await httpClient.put("/leads/update", lead, {
+      params: { lead_id: leadId },
+    });
+
+    return {
+      data: response.data,
+      status: response.status,
+      statusText: response.statusText,
+    };
+  } catch (error: any) {
+    return { data: error.response.data, status: error.response.status };
+  }
+}
 
 export {
   addLead,
@@ -133,4 +148,5 @@ export {
   deleteAllLeads,
   deleteLeadById,
   deleteLeadByIds,
+  updateLeadById,
 };

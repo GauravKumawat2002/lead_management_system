@@ -14,7 +14,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { removeToken } from "@/lib/tokenStorage";
 
 // userName will come from DB
 const userName: string = "Gaurav Kumawat";
@@ -31,7 +30,6 @@ export default function Navbar({ className }: { className?: string }) {
       label: "Logout",
       icon: LogOut,
       onClick: () => {
-        removeToken();
         router.push(ROUTES.LOGOUT);
       },
     },
@@ -128,17 +126,20 @@ export function UserDropdown({
         {DropDownItems.map((item) => (
           <DropdownMenuItem key={item.label}>
             {item.route ? (
-              <Link className="flex" href={item.route}>
-                {item.icon && <item.icon />}
-                <DropdownMenuLabel>{item.label}</DropdownMenuLabel>
-              </Link>
-            ) : (
-              <>
-                {item.icon && <item.icon />}
-                <DropdownMenuLabel onClick={item.onClick}>
+              <Link href={item.route}>
+                <DropdownMenuLabel className="flex items-center gap-2 text-xs">
+                  {item.icon && <item.icon className="h-4 w-4" />}
                   {item.label}
                 </DropdownMenuLabel>
-              </>
+              </Link>
+            ) : (
+              <DropdownMenuLabel
+                className="flex items-center gap-2 text-xs"
+                onClick={item.onClick}
+              >
+                {item.icon && <item.icon className="h-4 w-4" />}
+                {item.label}
+              </DropdownMenuLabel>
             )}
           </DropdownMenuItem>
         ))}

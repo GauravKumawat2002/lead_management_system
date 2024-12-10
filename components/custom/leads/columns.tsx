@@ -21,7 +21,6 @@ export const columns: ColumnDef<LeadsTableData>[] = [
       const allSelectedIds: string[] = table
         .getSelectedRowModel()
         .rows.map((row) => row.getValue("leadId"));
-      console.log("All selected ids", allSelectedIds);
       return (
         <Checkbox
           className="mr-2 flex self-center"

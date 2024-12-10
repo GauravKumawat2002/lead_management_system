@@ -99,6 +99,12 @@ body {
     @apply w-[calc(100vw-7rem)];
   }
   .navbar-shrinked {
-    @apply w-[calc(100vw-20rem)];
+    @apply w-[calc(100vw-3rem)] md:w-[calc(100vw-19rem)];
+  }
+  .data-table-expanded {
+    @apply w-[calc(100vw-7rem)];
+  }
+  .data-table-shrinked {
+    @apply w-[calc(100vw-3rem)] overflow-x-scroll md:w-[calc(100vw-19rem)] 2xl:w-full;
   }
 }

@@ -29,10 +29,10 @@ export default function AddLeads({
     resetForm: () => void,
     navigateRoute?: any,
   ) => void;
-  defaultValues?: ConvertObjectKeysToCamel<AddLeadsFormSchema>;
+  defaultValues?: LeadData;
 }) {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showButton, setShowButton] = useState(false);
   const addLeadsForm = useForm<AddLeadsFormSchema>({
     resolver: zodResolver(AddLeadsSchema),
     defaultValues: defaultValues
@@ -218,14 +218,18 @@ export default function AddLeads({
     <Card className="sticky top-80">
       <CardHeader>
         <CardTitle className="text-xl uppercase">
-          {defaultValues ? "Update Lead" : "Add Lead"}
+          {defaultValues ? defaultValues.leadId : "Add Lead"}
         </CardTitle>
       </CardHeader>
       <Form {...addLeadsForm}>
         <form
           onSubmit={addLeadsForm.handleSubmit((data) => {
-            !isSubmitting && setIsSubmitting(true);
+            !showButton && setShowButton(true);
             onSubmit(data, addLeadsForm.reset);
+            if (defaultValues) {
+              router.push(ROUTES.LEADS);
+              setTimeout(() => router.refresh(), 100); //sasta jugaad to prevent displaying of stale data in DataTable after updating lead
+            }
           })}
           method="POST"
         >
@@ -285,10 +289,14 @@ export default function AddLeads({
             <Button type="submit" className="w-full lg:w-fit">
               {defaultValues ? "Update Lead" : "Add Lead"}
             </Button>
-            {isSubmitting && (
+            {showButton && !defaultValues && (
               <Button
+                type="button"
                 variant={"secondary"}
-                onClick={() => router.push(ROUTES.LEADS)}
+                onClick={() => {
+                  router.push(ROUTES.LEADS);
+                  setTimeout(() => router.refresh(), 100);
+                }}
                 className="ml-4 w-full lg:w-fit"
               >
                 View All Leads

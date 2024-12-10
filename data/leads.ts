@@ -59,12 +59,6 @@ function useUpdateLeadById() {
     }) => {
       return await updateLeadById(leadId, data);
     },
-    onSuccess: (response) => {
-      console.log(response);
-    },
-    onError: (error) => {
-      console.error("Error updating lead", error);
-    },
   });
 }
 

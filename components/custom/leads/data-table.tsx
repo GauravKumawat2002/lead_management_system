@@ -113,7 +113,7 @@ export function DataTable<TData extends LeadsTableData, TValue>({
           <Button
             variant={"destructive"}
             onClick={() => {
-              handleButtonInteraction("Delete", "Lead", selectedRows);
+              handleButtonInteraction("Delete", "Lead", selectedRows, table);
               router.refresh();
             }}
             className="mr-2"

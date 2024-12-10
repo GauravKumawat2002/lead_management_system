@@ -69,7 +69,7 @@ export function DataTable<TData extends LeadsTableData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const router = useRouter();
-  const { state } = useSidebar();
+  const { state: sideBarState } = useSidebar();
 
   const table = useReactTable({
     data,
@@ -87,28 +87,29 @@ export function DataTable<TData extends LeadsTableData, TValue>({
   return (
     <Card
       className={
-        state === "expanded"
-          ? "w-[calc(100vw-20rem)] overflow-x-scroll 2xl:w-full"
-          : ""
+        sideBarState === "expanded"
+          ? "data-table-shrinked"
+          : "data-table-expanded"
       }
     >
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-row items-center justify-between gap-4">
         <CardTitle>
           <span className="font-bold italic text-primary">
             {table.getRowModel().rows?.length ?? "No"}{" "}
           </span>{" "}
           Records Found!
         </CardTitle>
-        <div>
+        <div className="!mt-0 flex gap-2 md:flex-row">
           <Button
             onClick={async () => {
               const path = await handleButtonInteraction("Add New", "Lead", []);
               router.push(path as string);
             }}
-            className="mr-2"
+            size={window.innerWidth < 640 ? "icon" : "default"}
+            className="sm:mr-2"
           >
-            Add New
-            <PlusSquare className="ml-2 h-4 w-4" />
+            {window.innerWidth < 640 ? null : "Add New"}
+            <PlusSquare className="h-4 w-4 sm:ml-2" />
           </Button>
           <Button
             variant={"destructive"}
@@ -116,10 +117,11 @@ export function DataTable<TData extends LeadsTableData, TValue>({
               handleButtonInteraction("Delete", "Lead", selectedRows, table);
               router.refresh();
             }}
-            className="mr-2"
+            size={window.innerWidth < 640 ? "icon" : "default"}
+            className="sm:mr-2"
           >
-            Delete Selected
-            <Trash2 className="ml-2 h-4 w-4" />
+            {window.innerWidth < 640 ? null : "Delete Selected"}
+            <Trash2 className="h-4 w-4 sm:ml-2" />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

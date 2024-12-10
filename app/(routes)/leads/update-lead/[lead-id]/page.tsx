@@ -1,52 +1,61 @@
 "use client";
 import AddLeads from "@/components/custom/leads/newLead/add-Leads-form";
 import LoadingSpinner from "@/components/custom/shared/LoadingSpinner";
-import { useAddLeads, useGetLeadById } from "@/data/leads";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
+import { useGetLeadById, useUpdateLeadById } from "@/data/leads";
 import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
-
+import { useQueryClient } from "@tanstack/react-query";
 export default function page({ params }: { params: { "lead-id": string } }) {
   const leadId = params["lead-id"];
-  const {
-    data: response,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetLeadById(leadId);
+  const { data, isLoading, isSuccess, isError, error } = useGetLeadById(leadId);
   const { toast } = useToast();
-  const { mutate } = useAddLeads();
-  const leadData: ConvertObjectKeysToCamel<LeadData> = response?.data;
-  console.log(response?.data);
+  const queryClient = useQueryClient();
+  const { mutate } = useUpdateLeadById();
+  const leadData: LeadData = data;
 
-  function handleAddLead(data: AddLeadsForm, onReset: () => void) {
-    mutate(data, {
-      onSuccess: (response) => {
-        if (response.status !== 200) {
+  useEffect(() => {
+    isError &&
+      toast({
+        title: "Error fetching lead",
+        description: error.message,
+        className: "text-xl font-semibold",
+        variant: "destructive",
+      });
+  }, [isError, error, toast]);
+
+  function handleUpdateLead(data: AddLeadsForm, onReset: () => void) {
+    mutate(
+      { leadId, data },
+      {
+        onSuccess: (response) => {
+          if (response.status !== 200) {
+            toast({
+              title: response.data,
+              className: "text-xl font-semibold",
+              variant: "destructive",
+            });
+          }
+          if (response.status === 200) {
+            onReset();
+            toast({
+              title: response.data,
+              description: "Lead added successfully",
+              className: "text-xl font-semibold",
+            });
+            queryClient.invalidateQueries();
+          }
+        },
+        onError: (error) => {
           toast({
-            title: response.data,
+            title: error.message,
+            description: "Error updating lead",
             className: "text-xl font-semibold",
             variant: "destructive",
           });
-        }
-        if (response.status === 200) {
-          onReset();
-          toast({
-            title: response.data,
-            description: "Lead added successfully",
-            className: "text-xl font-semibold",
-          });
-        }
+        },
       },
-      onError: (error) => {
-        toast({
-          title: error.message,
-          description: "Error adding lead",
-          className: "text-xl font-semibold",
-          variant: "destructive",
-        });
-      },
-    });
+    );
   }
   return (
     <div>
@@ -55,10 +64,13 @@ export default function page({ params }: { params: { "lead-id": string } }) {
           <LoadingSpinner />
         </div>
       )}
-      {isError && <div>{error.message}</div>}
-      {isSuccess && (
+      {isSuccess && leadData && (
         <section>
-          <AddLeads onSubmit={handleAddLead} defaultValues={leadData} />
+          <AddLeads
+            key={leadData.leadId}
+            onSubmit={handleUpdateLead}
+            defaultValues={leadData}
+          />
         </section>
       )}
     </div>

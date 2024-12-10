@@ -1,6 +1,6 @@
 import { ROUTES } from "@/routes/routes";
 import { deleteLeadByIds } from "@/services/leadsService";
-import { Row } from "@tanstack/react-table";
+import { Row, Table } from "@tanstack/react-table";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -37,6 +37,7 @@ async function handleButtonInteraction<TData extends LeadsTableData>(
   action: "Delete" | "Add New",
   type: "Lead" | "Itinary",
   selectedRows: Row<TData>[],
+  table?: Table<TData>,
 ) {
   // Determine actions based on type and action
   if (type === "Lead") {
@@ -46,6 +47,7 @@ async function handleButtonInteraction<TData extends LeadsTableData>(
           .map((row) => row.original.leadId)
           .filter(Boolean);
         await deleteLeadByIds(selectedLeadIds);
+        table?.resetRowSelection();
       }
     }
     if (action === "Add New") {

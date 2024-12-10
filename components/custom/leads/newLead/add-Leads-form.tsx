@@ -226,10 +226,6 @@ export default function AddLeads({
           onSubmit={addLeadsForm.handleSubmit((data) => {
             !showButton && setShowButton(true);
             onSubmit(data, addLeadsForm.reset);
-            if (defaultValues) {
-              router.push(ROUTES.LEADS);
-              setTimeout(() => router.refresh(), 100); //sasta jugaad to prevent displaying of stale data in DataTable after updating lead
-            }
           })}
           method="POST"
         >

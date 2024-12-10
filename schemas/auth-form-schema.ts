@@ -2,7 +2,9 @@ import { z } from "zod";
 
 const signInSchema = z.object({
   reference: z.string().email({ message: "Invalid email" }),
-  password: z.string().min(8),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters." }),
 });
 const signUpSchema = z
   .object({

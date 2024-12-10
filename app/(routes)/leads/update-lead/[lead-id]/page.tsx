@@ -6,9 +6,13 @@ import { useEffect } from "react";
 import { useGetLeadById, useUpdateLeadById } from "@/data/leads";
 import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/routes/routes";
+
 export default function page({ params }: { params: { "lead-id": string } }) {
   const leadId = params["lead-id"];
   const { data, isLoading, isSuccess, isError, error } = useGetLeadById(leadId);
+  const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate } = useUpdateLeadById();
@@ -40,10 +44,11 @@ export default function page({ params }: { params: { "lead-id": string } }) {
             onReset();
             toast({
               title: response.data,
-              description: "Lead added successfully",
+              description: "Lead updated successfully",
               className: "text-xl font-semibold",
             });
             queryClient.invalidateQueries();
+            router.push(ROUTES.LEADS);
           }
         },
         onError: (error) => {

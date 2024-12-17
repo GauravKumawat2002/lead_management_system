@@ -21,9 +21,9 @@ export default function RootLayout({
         enableSystem
         disableTransitionOnChange
       >
-        <SidebarProvider>
+        <SidebarProvider defaultOpen={false}>
           <Sidebar />
-          <main>
+          <main className="w-full">
             <Navbar className="sticky top-0 mb-4" />
             <QueryClientProvider client={queryClient}>
               <ReactQueryDevtools />

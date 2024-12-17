@@ -1,39 +1,18 @@
 "use client";
-import { ROUTES } from "@/routes/routes";
-import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Bell, LogOut, Settings, User } from "lucide-react";
-import { ModeToggle } from "./mode-toggle";
+import { usePathname } from "next/navigation";
+import { ROUTES } from "@/routes/routes";
 import { cn } from "@/lib/utils";
+import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 
 // userName will come from DB
 const userName: string = "Gaurav Kumawat";
 export default function Navbar({ className }: { className?: string }) {
   const pathname = usePathname();
-  const router = useRouter();
-
   const { state } = useSidebar();
-  const dropdownItems = [
-    { label: "Status" },
-    { label: "My Profile", route: "/profile", icon: User },
-    { label: "Settings", route: "/settings", icon: Settings },
-    {
-      label: "Logout",
-      icon: LogOut,
-      onClick: () => {
-        router.push(ROUTES.LOGOUT);
-      },
-    },
-  ];
+
   return (
     <header
       className={cn(
@@ -78,13 +57,10 @@ export default function Navbar({ className }: { className?: string }) {
             </h1>
           )}
         </div>
-
         <Link href={"/notifications"}>
           <Bell />
-        </Link>
-
-        <ModeToggle />
-        <UserDropdown DropDownItems={dropdownItems} />
+        </Link>{" "}
+        {/* <ModeToggle /> */}
       </nav>
     </header>
   );
@@ -92,8 +68,10 @@ export default function Navbar({ className }: { className?: string }) {
 
 const GreetingTitle = ({ userName }: { userName: string }) => {
   return (
-    <h1 className="text-xl font-bold text-gray-600 dark:text-gray-200">
-      <span className="text-base font-semibold text-primary">Great Day !</span>{" "}
+    <h1 className="text-xl font-bold text-primary">
+      <span className="text-base font-semibold text-gray-600 dark:text-gray-200">
+        Great Day !
+      </span>{" "}
       {userName}
     </h1>
   );
@@ -104,46 +82,3 @@ const GreetingTitle = ({ userName }: { userName: string }) => {
 // - Settings {route: /settings} (will implement later)
 // - Logout
 // - Status (active, idle) (will implement later)
-
-export function UserDropdown({
-  className,
-  DropDownItems,
-}: {
-  className?: string;
-  DropDownItems: {
-    label: string;
-    route?: string;
-    icon?: any;
-    onClick?: () => void;
-  }[];
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className={cn("", className)}>
-        <User />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        {DropDownItems.map((item) => (
-          <DropdownMenuItem key={item.label}>
-            {item.route ? (
-              <Link href={item.route}>
-                <DropdownMenuLabel className="flex items-center gap-2 text-xs">
-                  {item.icon && <item.icon className="h-4 w-4" />}
-                  {item.label}
-                </DropdownMenuLabel>
-              </Link>
-            ) : (
-              <DropdownMenuLabel
-                className="flex items-center gap-2 text-xs"
-                onClick={item.onClick}
-              >
-                {item.icon && <item.icon className="h-4 w-4" />}
-                {item.label}
-              </DropdownMenuLabel>
-            )}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}

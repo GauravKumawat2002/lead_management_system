@@ -1,39 +1,88 @@
 "use client";
-import { Home, Inbox } from "lucide-react";
+
+import {
+  Home,
+  Inbox,
+  Sailboat,
+  ClipboardList,
+  FileText,
+  LogOut,
+  Settings,
+  User,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarSeparator,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
-import sideBarRoutes from "@/routes/side-bar-routes";
+import { ROUTES } from "@/routes/routes";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-const companyLogo = "SERP DIGI SOLUTIONS";
+import { usePathname, useRouter } from "next/navigation";
+import UserDropdown from "./user-dropdown";
+
+const companyLogo = <Sailboat />;
 const items = [
   {
-    title: sideBarRoutes.at(0)?.name,
-    url: sideBarRoutes.at(0)?.href,
+    title: "Home",
+    url: ROUTES.HOME,
     icon: Home,
   },
   {
-    title: sideBarRoutes.at(1)?.name,
-    url: sideBarRoutes.at(1)?.href,
+    title: "leads",
+    url: ROUTES.LEADS,
     icon: Inbox,
+  },
+  {
+    title: "Itineraries",
+    url: ROUTES.ITINERARY,
+    icon: ClipboardList,
+  },
+  {
+    title: "Quotations",
+    url: ROUTES.QUOTATIONS,
+    icon: FileText,
   },
 ];
 
 export default function AppSidebar() {
+  const router = useRouter();
   const pathname = usePathname();
+  const { open, openMobile } = useSidebar();
+  const dropdownItems = [
+    // { label: "Status" },
+    { label: "My Profile", route: "/profile", icon: User },
+    { label: "Settings", route: "/settings", icon: Settings },
+    {
+      label: "Logout",
+      icon: LogOut,
+      onClick: () => {
+        router.push(ROUTES.LOGOUT);
+      },
+    },
+  ];
   return (
     <Sidebar variant="floating" collapsible="icon">
+      <SidebarHeader>
+        {open || openMobile ? (
+          <span className="flex items-center gap-2 pl-2">
+            {companyLogo}
+            KingsLand Travels
+          </span>
+        ) : (
+          <span className="mx-auto">{companyLogo}</span>
+        )}
+      </SidebarHeader>
+      <SidebarSeparator />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>{companyLogo}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -58,6 +107,13 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <UserDropdown DropDownItems={dropdownItems} />
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }

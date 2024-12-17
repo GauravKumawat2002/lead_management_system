@@ -95,16 +95,10 @@ body {
   .navbar {
     @apply sticky z-50 rounded-xl bg-primary-foreground px-4 py-2 shadow-md outline outline-1 outline-primary/20 transition-[width] ease-linear;
   }
-  .navbar-expanded {
-    @apply w-[calc(100vw-7rem)];
-  }
   .navbar-shrinked {
-    @apply w-[calc(100vw-3rem)] md:w-[calc(100vw-19rem)];
-  }
-  .data-table-expanded {
-    @apply w-[calc(100vw-7rem)];
+    @apply w-[calc(100vw-3rem)] md:w-[calc(100vw-19rem)] 2xl:w-[calc(100vw-21rem)];
   }
   .data-table-shrinked {
-    @apply w-[calc(100vw-3rem)] overflow-x-scroll md:w-[calc(100vw-19rem)] 2xl:w-full;
+    @apply w-[calc(100vw-3rem)] overflow-x-scroll md:w-[calc(100vw-19rem)] 2xl:w-[calc(100vw-21rem)];
   }
 }

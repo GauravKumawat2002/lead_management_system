@@ -126,7 +126,8 @@ export function DataTable<TData extends LeadsTableData, TValue>({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto font-medium">
-                View <Settings2 className="ml-2 h-4 w-4" />
+                {window.innerWidth < 640 ? null : "View"}{" "}
+                <Settings2 className="h-4 w-4 sm:ml-2" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

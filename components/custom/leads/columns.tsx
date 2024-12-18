@@ -135,6 +135,14 @@ export const columns: ColumnDef<LeadsTableData>[] = [
             >
               Update Lead
             </DropdownMenuItem>
+            <DropdownMenuItem
+              key={"Create Quotation"}
+              onClick={() => {
+                router.push(ROUTES.NEW_QUOTATION(id));
+              }}
+            >
+              Create Quotation
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -16,6 +16,13 @@ import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/routes";
 export const columns: ColumnDef<LeadsTableData>[] = [
   {
+    id: "sno",
+    header: () => <div className="font-semibold text-primary">S.No.</div>,
+    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     id: "select",
     header: ({ table }) => {
       const allSelectedIds: string[] = table

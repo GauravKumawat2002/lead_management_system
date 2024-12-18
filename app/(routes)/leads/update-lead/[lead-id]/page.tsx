@@ -4,7 +4,7 @@ import LoadingSpinner from "@/components/custom/shared/LoadingSpinner";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
 import { useGetLeadById, useUpdateLeadById } from "@/data/leads";
-import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
+import { AddLeadsSchemaType } from "@/schemas/add-leads-form-schema";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/routes";
@@ -28,7 +28,7 @@ export default function page({ params }: { params: { "lead-id": string } }) {
       });
   }, [isError, error, toast]);
 
-  function handleUpdateLead(data: AddLeadsForm, onReset: () => void) {
+  function handleUpdateLead(data: AddLeadsSchemaType, onReset: () => void) {
     mutate(
       { leadId, data },
       {

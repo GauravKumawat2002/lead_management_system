@@ -77,6 +77,6 @@ const AddLeadsSchema = z.object({
   ]),
 });
 
-type AddLeadsForm = z.infer<typeof AddLeadsSchema>;
+type AddLeadsSchemaType = z.infer<typeof AddLeadsSchema>;
 export { AddLeadsSchema };
-export type { AddLeadsForm };
+export type { AddLeadsSchemaType };

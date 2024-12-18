@@ -1,9 +1,9 @@
-import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
+import { AddLeadsSchemaType } from "@/schemas/add-leads-form-schema";
 
 export declare global {
   type LeadsTableData = ConvertObjectKeysToCamel<
     Omit<
-      AddLeadsForm,
+      AddLeadsSchemaType,
       | "budget_per_adult"
       | "budget_per_child"
       | "follow_up"
@@ -12,7 +12,7 @@ export declare global {
       | "planned_travel_date"
     >
   > & { leadId: string };
-  type LeadData = ConvertObjectKeysToCamel<AddLeadsForm> & {
+  type LeadData = ConvertObjectKeysToCamel<AddLeadsSchemaType> & {
     leadId: string;
     createdAt: string;
     updatedAt: string;

@@ -137,7 +137,7 @@ export default function AddItineraryForm({
                 type="button"
                 variant={"secondary"}
                 onClick={() => {
-                  router.push(ROUTES.LEADS);
+                  router.push(ROUTES.ITINERARY);
                   setTimeout(() => router.refresh(), 100);
                 }}
                 className="ml-4 w-full lg:w-fit"

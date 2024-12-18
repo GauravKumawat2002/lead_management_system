@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   AddLeadsSchema,
-  AddLeadsForm as AddLeadsFormSchema,
+  AddLeadsSchemaType as AddLeadsSchemaTypeSchema,
 } from "@/schemas/add-leads-form-schema";
 import CustomFormField from "../../shared/custom-form-field";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ export default function AddLeads({
   defaultValues,
 }: {
   onSubmit: (
-    data: AddLeadsFormSchema,
+    data: AddLeadsSchemaTypeSchema,
     resetForm: () => void,
     navigateRoute?: any,
   ) => void;
@@ -33,7 +33,7 @@ export default function AddLeads({
 }) {
   const router = useRouter();
   const [showButton, setShowButton] = useState(false);
-  const addLeadsForm = useForm<AddLeadsFormSchema>({
+  const AddLeadsSchemaType = useForm<AddLeadsSchemaTypeSchema>({
     resolver: zodResolver(AddLeadsSchema),
     defaultValues: defaultValues
       ? {
@@ -68,21 +68,21 @@ export default function AddLeads({
 
   const primaryFormFields = [
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Client Name",
       name: "client_name",
       placeholder: "Enter client name",
       type: "text",
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Client Contact No",
       name: "client_contact_no",
       placeholder: "Enter client contact no",
       type: "text",
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Client Email",
       name: "client_email_id",
       placeholder: "Enter client email",
@@ -90,21 +90,21 @@ export default function AddLeads({
       required: false,
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Executive",
       name: "executive",
       placeholder: "Enter executive name",
       type: "text",
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Follow Up ",
       name: "follow_up",
       placeholder: "Enter follow up date & time",
       type: "datetime-local",
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Stage",
       name: "stage",
       options: [
@@ -123,7 +123,7 @@ export default function AddLeads({
       type: "select",
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Status",
       name: "status",
       options: [
@@ -144,7 +144,7 @@ export default function AddLeads({
   ];
   const travelDetailsFormFields = [
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Enquiry Type",
       name: "enquiry_type",
       options: [
@@ -158,14 +158,14 @@ export default function AddLeads({
       type: "select",
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Package",
       name: "package_name",
       placeholder: "Enter package",
       type: "text",
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Planned Travel Date",
       name: "planned_travel_date",
       placeholder: "Enter planned travel date",
@@ -173,7 +173,7 @@ export default function AddLeads({
       required: false,
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Destination",
       name: "destination",
       placeholder: "Enter destination",
@@ -183,21 +183,21 @@ export default function AddLeads({
   ];
   const budgetFormFields = [
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "No of Adults",
       name: "no_of_adults",
       placeholder: "Enter no of adults",
       type: "text",
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Budget per Adult",
       name: "budget_per_adult",
       placeholder: "Enter budget per adult",
       type: "text",
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "No of Children",
       name: "no_of_children",
       placeholder: "Enter no of children",
@@ -205,7 +205,7 @@ export default function AddLeads({
       required: false,
     },
     {
-      control: addLeadsForm.control,
+      control: AddLeadsSchemaType.control,
       label: "Budget per Child",
       name: "budget_per_child",
       placeholder: "Enter budget per child",
@@ -221,11 +221,11 @@ export default function AddLeads({
           {defaultValues ? defaultValues.leadId : "Add Lead"}
         </CardTitle>
       </CardHeader>
-      <Form {...addLeadsForm}>
+      <Form {...AddLeadsSchemaType}>
         <form
-          onSubmit={addLeadsForm.handleSubmit((data) => {
+          onSubmit={AddLeadsSchemaType.handleSubmit((data) => {
             !showButton && setShowButton(true);
-            onSubmit(data, addLeadsForm.reset);
+            onSubmit(data, AddLeadsSchemaType.reset);
           })}
           method="POST"
         >
@@ -239,7 +239,7 @@ export default function AddLeads({
                   key={field.name}
                   control={field.control}
                   label={field.label}
-                  name={field.name as keyof AddLeadsFormSchema}
+                  name={field.name as keyof AddLeadsSchemaTypeSchema}
                   options={field.options}
                   placeholder={field.placeholder}
                   type={field.type}
@@ -256,7 +256,7 @@ export default function AddLeads({
                   key={field.name}
                   control={field.control}
                   label={field.label}
-                  name={field.name as keyof AddLeadsFormSchema}
+                  name={field.name as keyof AddLeadsSchemaTypeSchema}
                   options={field.options}
                   placeholder={field.placeholder}
                   type={field.type}
@@ -273,7 +273,7 @@ export default function AddLeads({
                   key={field.name}
                   control={field.control}
                   label={field.label}
-                  name={field.name as keyof AddLeadsFormSchema}
+                  name={field.name as keyof AddLeadsSchemaTypeSchema}
                   placeholder={field.placeholder}
                   type={field.type}
                   required={field.required}

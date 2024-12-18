@@ -9,7 +9,6 @@ import {
   getSortedRowModel,
   useReactTable,
   VisibilityState,
-  Row,
 } from "@tanstack/react-table";
 
 import {
@@ -52,8 +51,6 @@ import { Settings2, PlusSquare, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
-import { ROUTES } from "@/routes/routes";
-import { deleteLeadByIds } from "@/services/leadsService";
 import { handleButtonInteraction } from "@/lib/utils";
 
 interface DataTableProps<TData extends LeadsTableData, TValue> {

@@ -1,6 +1,6 @@
 "use client";
 import AddLeads from "@/components/custom/leads/newLead/add-Leads-form";
-import LoadingSpinner from "@/components/custom/shared/LoadingSpinner";
+import LoadingSpinner from "@/components/custom/shared/loading-spinner";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
 import { useGetLeadById, useUpdateLeadById } from "@/data/leads";

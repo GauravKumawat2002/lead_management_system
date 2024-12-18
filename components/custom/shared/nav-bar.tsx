@@ -56,6 +56,46 @@ export default function Navbar({ className }: { className?: string }) {
               Update Lead
             </h1>
           )}
+          {pathname === ROUTES.ITINERARY && (
+            <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
+              Itineraries
+            </h1>
+          )}
+          {pathname === ROUTES.NEW_ITINERARY && (
+            <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
+              Add New Itinerary
+            </h1>
+          )}
+          {pathname.startsWith(ROUTES.UPDATE_ITINERARY("IT-")) && (
+            <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
+              Update Itinerary
+            </h1>
+          )}
+          {pathname.startsWith(ROUTES.DUPLICATE_ITINERARY("IT-")) && (
+            <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
+              Duplicate Itinerary
+            </h1>
+          )}
+          {pathname === ROUTES.QUOTATIONS && (
+            <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
+              Quotations
+            </h1>
+          )}
+          {pathname === ROUTES.NEW_QUOTATION && (
+            <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
+              Add New Quotation
+            </h1>
+          )}
+          {pathname.startsWith(ROUTES.UPDATE_QUOTATION("QT-")) && (
+            <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
+              Update Quotation
+            </h1>
+          )}
+          {pathname.startsWith(ROUTES.DUPLICATE_QUOTATION("QT-")) && (
+            <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
+              Duplicate Quotation
+            </h1>
+          )}
         </div>
         <Link href={"/notifications"}>
           <Bell />

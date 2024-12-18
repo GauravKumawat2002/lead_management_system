@@ -1,5 +1,5 @@
 "use server";
-import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
+import { AddLeadsSchemaType } from "@/schemas/add-leads-form-schema";
 import httpClient from "./httpClient";
 
 type AddLeadsResponse =
@@ -43,7 +43,7 @@ type deleteLeadByIdResponse =
       status: number;
     };
 
-async function addLead(lead: AddLeadsForm): Promise<AddLeadsResponse> {
+async function addLead(lead: AddLeadsSchemaType): Promise<AddLeadsResponse> {
   try {
     const response = await httpClient.post("/leads/create", lead);
     return {
@@ -125,7 +125,7 @@ async function deleteLeadByIds(
     return { data: error.response.data, status: error.response.status };
   }
 }
-async function updateLeadById(leadId: string, lead: AddLeadsForm) {
+async function updateLeadById(leadId: string, lead: AddLeadsSchemaType) {
   try {
     const response = await httpClient.put("/leads/update", lead, {
       params: { lead_id: leadId },

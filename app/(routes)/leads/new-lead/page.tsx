@@ -1,13 +1,13 @@
 "use client";
 import { useToast } from "@/hooks/use-toast";
 import { useAddLeads } from "@/data/leads";
-import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
+import { AddLeadsSchemaType } from "@/schemas/add-leads-form-schema";
 import AddLeads from "@/components/custom/leads/newLead/add-Leads-form";
 
 export default function page() {
   const { toast } = useToast();
   const { mutate } = useAddLeads();
-  function handleAddLead(data: AddLeadsForm, onReset: () => void) {
+  function handleAddLead(data: AddLeadsSchemaType, onReset: () => void) {
     mutate(data, {
       onSuccess: (response) => {
         if (response.status !== 200) {

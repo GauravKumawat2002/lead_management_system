@@ -1,6 +1,6 @@
 import { columns } from "@/components/custom/leads/columns";
 import { DataTable } from "@/components/custom/leads/data-table";
-import ErrorDisplay from "@/components/custom/shared/ErrorDisplay";
+import ErrorDisplay from "@/components/custom/shared/error-display";
 import { getAllLeads } from "@/services/leadsService";
 
 export default async function page() {

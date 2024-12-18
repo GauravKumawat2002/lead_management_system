@@ -15,7 +15,10 @@ export const ROUTES = {
     `/proposals/itinerary/duplicate-itinerary/${itineraryId}`,
   // routes for quotaions
   QUOTATIONS: "/proposals/quotations",
-  NEW_QUOTATION: "/proposals/quotations/new-quotation",
+  NEW_QUOTATION: (id?: string) =>
+    id
+      ? `/proposals/quotations/new-quotation/${id}`
+      : "/proposals/quotations/new-quotation",
   UPDATE_QUOTATION: (quotationId: string) =>
     `/proposals/quotations/update-quotation/${quotationId}`,
   DUPLICATE_QUOTATION: (quotationId: string) =>

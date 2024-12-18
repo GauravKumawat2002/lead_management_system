@@ -56,11 +56,13 @@ import { handleButtonInteraction } from "@/lib/utils";
 interface DataTableProps<TData extends LeadsTableData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  handleButtonInteractionType: "Lead" | "Itinary" | "Qoutation";
 }
 
 export function DataTable<TData extends LeadsTableData, TValue>({
   columns,
   data,
+  handleButtonInteractionType,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -99,7 +101,11 @@ export function DataTable<TData extends LeadsTableData, TValue>({
         <div className="!mt-0 flex gap-2 md:flex-row">
           <Button
             onClick={async () => {
-              const path = await handleButtonInteraction("Add New", "Lead", []);
+              const path = await handleButtonInteraction(
+                "Add New",
+                handleButtonInteractionType,
+                [],
+              );
               router.push(path as string);
             }}
             size={window.innerWidth < 640 ? "icon" : "default"}
@@ -111,7 +117,12 @@ export function DataTable<TData extends LeadsTableData, TValue>({
           <Button
             variant={"destructive"}
             onClick={() => {
-              handleButtonInteraction("Delete", "Lead", selectedRows, table);
+              handleButtonInteraction(
+                "Delete",
+                handleButtonInteractionType,
+                selectedRows,
+                table,
+              );
               router.refresh();
             }}
             size={window.innerWidth < 640 ? "icon" : "default"}
@@ -258,3 +269,4 @@ export function DataTable<TData extends LeadsTableData, TValue>({
     </Card>
   );
 }
+// In future, when filter option will be included then I have to make this table flexible enough so that it can take the input fields as parameter based on which filter will be applied.

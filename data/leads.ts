@@ -1,4 +1,4 @@
-import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
+import { AddLeadsSchemaType } from "@/schemas/add-leads-form-schema";
 import {
   addLead,
   getAllLeads,
@@ -10,7 +10,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 function useAddLeads() {
   return useMutation({
     mutationKey: ["addLeads"],
-    mutationFn: async (data: AddLeadsForm) => {
+    mutationFn: async (data: AddLeadsSchemaType) => {
       return await addLead(data);
     },
     onSuccess: (response) => {
@@ -55,7 +55,7 @@ function useUpdateLeadById() {
       data,
     }: {
       leadId: string;
-      data: AddLeadsForm;
+      data: AddLeadsSchemaType;
     }) => {
       return await updateLeadById(leadId, data);
     },

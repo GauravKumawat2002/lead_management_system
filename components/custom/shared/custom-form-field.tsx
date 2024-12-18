@@ -3,10 +3,11 @@ import { useState } from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 import { format } from "date-fns";
 import { Eye, EyeOff, CalendarRangeIcon } from "lucide-react";
-
+import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import { SignInForm, SignUpForm } from "@/schemas/auth-form-schema";
-import { AddLeadsForm } from "@/schemas/add-leads-form-schema";
+import { AddLeadsSchemaType } from "@/schemas/add-leads-form-schema";
+import { AddItinerarySchemaType } from "@/schemas/add-itinerary-form-schema";
 
 import {
   FormField,
@@ -32,6 +33,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 interface CustomFormFieldProps<T extends FieldValues> {
   required?: boolean;
   control: Control<T>;
@@ -47,11 +50,16 @@ interface CustomFormFieldProps<T extends FieldValues> {
     | "textarea"
     | "text"
     | "datetime-local"
+    | "rich-text"
     | string;
 }
 
 export default function CustomFormField<
-  T extends SignInForm | SignUpForm | AddLeadsForm,
+  T extends
+    | SignInForm
+    | SignUpForm
+    | AddLeadsSchemaType
+    | AddItinerarySchemaType,
 >({
   control,
   label,
@@ -65,6 +73,25 @@ export default function CustomFormField<
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
+  };
+
+  const quillModules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+      ["link", "image", "video", "formula"],
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+      ["clean"], // remove formatting button
+    ],
   };
 
   return (
@@ -201,6 +228,17 @@ export default function CustomFormField<
                 placeholder={placeholder}
                 type="datetime-local"
                 value={field.value as string | undefined}
+              />
+            </FormControl>
+          )}
+          {type === "rich-text" && (
+            <FormControl>
+              <ReactQuill
+                theme="snow"
+                modules={quillModules}
+                value={field.value as string}
+                onChange={field.onChange}
+                placeholder={placeholder || "Start typing..."}
               />
             </FormControl>
           )}

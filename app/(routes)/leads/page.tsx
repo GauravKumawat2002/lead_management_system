@@ -10,7 +10,11 @@ export default async function page() {
     return (
       <>
         <div className="mx-auto">
-          <DataTable columns={columns} data={response.data} />
+          <DataTable
+            columns={columns}
+            data={response.data}
+            handleButtonInteractionType="Lead"
+          />
         </div>
       </>
     );

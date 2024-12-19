@@ -53,13 +53,19 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
 import { handleButtonInteraction } from "@/lib/utils";
 
-interface DataTableProps<TData extends LeadsTableData, TValue> {
+interface DataTableProps<
+  TData extends ItineraryTableData | LeadsTableData,
+  TValue,
+> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  handleButtonInteractionType: "Lead" | "Itinary" | "Qoutation";
+  handleButtonInteractionType: "Lead" | "Itinerary" | "Qoutation";
 }
 
-export function DataTable<TData extends LeadsTableData, TValue>({
+export function DataTable<
+  TData extends ItineraryTableData | LeadsTableData,
+  TValue,
+>({
   columns,
   data,
   handleButtonInteractionType,

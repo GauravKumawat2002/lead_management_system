@@ -10,14 +10,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
-import { deleteLeadByIds } from "@/services/leadsService";
+import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/routes";
 export const columns: ColumnDef<ItineraryTableData>[] = [
   {
-    id: "sno",
-    header: () => <div className="font-semibold text-primary">S.No.</div>,
+    id: "serialNumber",
+    header: () => (
+      <div className="text-center font-semibold text-primary">S.No.</div>
+    ),
     cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
     enableSorting: false,
     enableHiding: false,
@@ -59,14 +60,8 @@ export const columns: ColumnDef<ItineraryTableData>[] = [
   },
   {
     accessorKey: "templateName",
-    header: ({ column }) => (
-      <Button
-        variant="link"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="!p-0 !py-0 font-semibold text-primary"
-      >
-        Template Name <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
+    header: () => (
+      <div className="font-semibold text-primary">Template Name</div>
     ),
   },
   {
@@ -77,7 +72,7 @@ export const columns: ColumnDef<ItineraryTableData>[] = [
     id: "actions",
     cell: ({ row }) => {
       const router = useRouter();
-      const id: string = row.getValue("leadId");
+      const id: string = row.getValue("itineraryId");
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

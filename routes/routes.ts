@@ -27,4 +27,6 @@ export const ROUTES = {
   SIGNIN: "/sign-in",
   SIGNUP: "/sign-up",
   LOGOUT: "/log-out",
+  FORGOT_PASSWORD: "/reset-password/request",
+  RESET_PASSWORD: "/reset-password/confirm",
 };

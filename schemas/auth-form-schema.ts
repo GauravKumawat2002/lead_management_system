@@ -31,9 +31,49 @@ const signUpSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+const requestResetPasswordSchema = z.object({
+  email: z.string().email({ message: "Invalid Email" }),
+});
+const confirmResetPasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(8)
+      .regex(/[a-z]/, {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .regex(/[A-Z]/, {
+        message: "Password must contain at least one uppercase letter.",
+      })
+      .regex(/\d/, { message: "Password must contain at least one number" })
+      .regex(/[@$!%*?&#]/, {
+        message: "Password must contain at least one special character.",
+      }),
+    confirmNewPassword: z.string().min(8),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Passwords do not match",
+    path: ["confirmNewPassword"],
+  });
 
 type SignInForm = z.infer<typeof signInSchema>;
 type SignUpForm = z.infer<typeof signUpSchema>;
+type RequestResetPasswordSchemaType = z.infer<
+  typeof requestResetPasswordSchema
+>;
+type ConfirmResetPasswordSchemaType = z.infer<
+  typeof confirmResetPasswordSchema
+>;
 
-export { signInSchema, signUpSchema };
-export type { SignInForm, SignUpForm };
+export {
+  signInSchema,
+  signUpSchema,
+  requestResetPasswordSchema,
+  confirmResetPasswordSchema,
+};
+export type {
+  SignInForm,
+  SignUpForm,
+  ConfirmResetPasswordSchemaType,
+  RequestResetPasswordSchemaType,
+};

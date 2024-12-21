@@ -8,7 +8,7 @@ import {
   AddItinerarySchemaType,
 } from "@/schemas/add-itinerary-form-schema";
 import { ROUTES } from "@/routes/routes";
-import { camelToSnake, convertToDatetimeLocal } from "@/lib/utils";
+import { camelToSnake } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import CustomFormField from "@/components/custom/shared/custom-form-field";
@@ -101,7 +101,7 @@ export default function AddItineraryForm({
           <CardContent className="flex flex-col justify-between gap-4">
             <div className="flex flex-col lg:flex-row lg:gap-4">
               {formFields.map((field) => (
-                <div className="w-full">
+                <div className="w-full" key={field.name}>
                   <CustomFormField
                     key={field.name}
                     control={field.control}

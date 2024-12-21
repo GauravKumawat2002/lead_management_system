@@ -5,7 +5,12 @@ import { format } from "date-fns";
 import { Eye, EyeOff, CalendarRangeIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
-import { SignInForm, SignUpForm } from "@/schemas/auth-form-schema";
+import {
+  ConfirmResetPasswordSchemaType,
+  RequestResetPasswordSchemaType,
+  SignInForm,
+  SignUpForm,
+} from "@/schemas/auth-form-schema";
 import { AddLeadsSchemaType } from "@/schemas/add-leads-form-schema";
 import { AddItinerarySchemaType } from "@/schemas/add-itinerary-form-schema";
 
@@ -59,7 +64,9 @@ export default function CustomFormField<
     | SignInForm
     | SignUpForm
     | AddLeadsSchemaType
-    | AddItinerarySchemaType,
+    | AddItinerarySchemaType
+    | ConfirmResetPasswordSchemaType
+    | RequestResetPasswordSchemaType,
 >({
   control,
   label,

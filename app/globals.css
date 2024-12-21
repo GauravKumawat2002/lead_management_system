@@ -101,4 +101,13 @@ body {
   .data-table-shrinked {
     @apply w-[calc(100vw-3rem)] overflow-x-scroll md:w-[calc(100vw-19rem)] 2xl:w-[calc(100vw-21rem)];
   }
+  .reset-password-form {
+    @apply w-[80vw] md:w-[50vw] lg:w-[40vw];
+  }
+  .reset-password-form-card-title {
+    @apply !text-lg uppercase !tracking-wider text-primary sm:!text-xl lg:!text-2xl;
+  }
+  .reset-password-form-card-description {
+    @apply !text-sm font-normal text-gray-500 sm:!text-base lg:!text-lg;
+  }
 }

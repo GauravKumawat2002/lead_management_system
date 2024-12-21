@@ -81,7 +81,7 @@ export default function Navbar({ className }: { className?: string }) {
               Quotations
             </h1>
           )}
-          {pathname === ROUTES.NEW_QUOTATION && (
+          {pathname === ROUTES.NEW_QUOTATION() && (
             <h1 className="inline text-xl font-bold text-gray-600 dark:text-gray-200">
               Add New Quotation
             </h1>

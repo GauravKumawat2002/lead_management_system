@@ -127,17 +127,26 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
         <Button className="w-fit" disabled variant={"outline"}>
           Continue with Google
         </Button>
-        <p className="mx-auto text-sm text-gray-500">
+        <div className="mx-auto text-sm text-gray-500">
           {type === "signIn" ? (
-            <>
-              Don't have an account?{" "}
+            <div className="flex flex-col items-center gap-2">
+              <p>
+                Don't have an account?{" "}
+                <Link
+                  className="text-primary hover:text-primary/80"
+                  href={ROUTES.SIGNUP}
+                >
+                  Sign Up
+                </Link>
+              </p>
+              or
               <Link
                 className="text-primary hover:text-primary/80"
-                href={ROUTES.SIGNUP}
+                href={ROUTES.FORGOT_PASSWORD}
               >
-                Sign Up
+                Forgot Password ?
               </Link>
-            </>
+            </div>
           ) : (
             <>
               Already have an account?
@@ -149,7 +158,7 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
               </Link>
             </>
           )}
-        </p>
+        </div>
       </CardFooter>
     </Card>
   );

@@ -22,6 +22,6 @@ export global {
   }
   interface ResetPasswordFormProps {
     type: FormType;
-    onSubmit: (data: FormSchema) => void;
+    onSubmit: (data: FormSchema, onReset?: () => void) => void;
   }
 }

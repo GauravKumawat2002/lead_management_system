@@ -1,5 +1,9 @@
 "use server";
-import { SignInForm, SignUpForm } from "@/schemas/auth-form-schema";
+import {
+  ConfirmResetPasswordSchemaType,
+  SignInForm,
+  SignUpForm,
+} from "@/schemas/auth-form-schema";
 import httpClient from "./httpClient";
 import { cookies } from "next/headers";
 
@@ -60,6 +64,36 @@ async function refreshTokenService(): Promise<IRefreshTokenResponse> {
     };
   }
 }
+async function requestResetPasswordService(email: string) {
+  try {
+    const response = await httpClient.post("/auth/reset-password/request", {
+      email,
+    });
+    return { data: response.data, status: response.status };
+  } catch (error: any) {
+    return { data: error.response.data, status: error.response.status };
+  }
+}
+
+async function confirmResetPasswordService(
+  data: Omit<ConfirmResetPasswordSchemaType, "confirmNewPassword">,
+  token: string,
+) {
+  try {
+    const response = await httpClient.post(
+      "/auth/reset-password/confirm",
+      {
+        password: data.newPassword,
+      },
+      { params: { token } },
+    );
+
+    return { data: response.data, status: response.status };
+  } catch (error: any) {
+    return { data: error.response.data, status: error.response.status };
+  }
+}
+
 async function logOutService() {
   try {
     const cookieStore = cookies();
@@ -75,4 +109,11 @@ async function logOutService() {
   }
 }
 
-export { signUpService, signInService, refreshTokenService, logOutService };
+export {
+  signUpService,
+  signInService,
+  refreshTokenService,
+  requestResetPasswordService,
+  confirmResetPasswordService,
+  logOutService,
+};

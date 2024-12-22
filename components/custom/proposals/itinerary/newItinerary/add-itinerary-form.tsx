@@ -34,7 +34,7 @@ export default function AddItineraryForm({
       : {
           template_name: "",
           subject: "",
-          introduction_message: "",
+          trip_details: "",
           thank_you_note: "",
           terms_and_conditions: "",
         },
@@ -60,9 +60,9 @@ export default function AddItineraryForm({
   const rteFormFields = [
     {
       control: form.control,
-      label: "Introduction Message",
-      name: "introduction_message",
-      placeholder: "Enter introduction message",
+      label: "Trip Details",
+      name: "trip_details",
+      placeholder: "Enter Trip Details",
       type: "rich-text",
       required: false,
     },

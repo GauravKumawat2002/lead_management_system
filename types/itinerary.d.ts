@@ -4,7 +4,7 @@ export declare global {
   type ItineraryTableData = ConvertObjectKeysToCamel<
     Omit<
       AddItinerarySchemaType,
-      "introduction_message" | "thank_you_note" | "terms_and_conditions"
+      "trip_details" | "thank_you_note" | "terms_and_conditions"
     >
   > & {
     itineraryId: string;

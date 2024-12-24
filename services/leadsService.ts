@@ -69,10 +69,10 @@ async function getAllLeads(): Promise<GetAllLeadsResponse> {
     return { data: error.response.data, status: error.response.status };
   }
 }
-async function getLeadById(leadId: string): Promise<GetLeadByIdResponse> {
+async function getLeadById(id: string): Promise<GetLeadByIdResponse> {
   try {
     const response = await httpClient.get(`/leads/fetch-by-id`, {
-      params: { leadId },
+      params: { id },
     });
     return {
       data: response.data,
@@ -95,10 +95,10 @@ async function deleteAllLeads() {
     return { data: error.response.data, status: error.response.status };
   }
 }
-async function deleteLeadById(leadId: string): Promise<deleteLeadByIdResponse> {
+async function deleteLeadById(id: string): Promise<deleteLeadByIdResponse> {
   try {
     const response = await httpClient.delete(`/leads/delete-by-id`, {
-      params: { leadId },
+      params: { id },
     });
     return {
       data: response.data,
@@ -109,12 +109,10 @@ async function deleteLeadById(leadId: string): Promise<deleteLeadByIdResponse> {
     return { data: error.response.data, status: error.response.status };
   }
 }
-async function deleteLeadByIds(
-  leadIds: string[],
-): Promise<deleteLeadByIdResponse> {
+async function deleteLeadByIds(ids: string[]): Promise<deleteLeadByIdResponse> {
   try {
     const response = await httpClient.delete(`/leads/delete-by-ids`, {
-      params: { leadIds: leadIds.join(",") },
+      params: { ids: ids.join(",") },
     });
     return {
       data: response.data,
@@ -125,10 +123,10 @@ async function deleteLeadByIds(
     return { data: error.response.data, status: error.response.status };
   }
 }
-async function updateLeadById(leadId: string, lead: AddLeadsSchemaType) {
+async function updateLeadById(id: string, lead: AddLeadsSchemaType) {
   try {
     const response = await httpClient.put("/leads/update", lead, {
-      params: { lead_id: leadId },
+      params: { id },
     });
 
     return {

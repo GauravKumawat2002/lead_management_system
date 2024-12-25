@@ -83,7 +83,7 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
         ];
 
   return (
-    <Card className="auth-form w-[80vw] md:w-[60vw] lg:w-[50vw]">
+    <Card className="base-form-width">
       <CardHeader>
         <CardTitle className="card-title text-3xl font-semibold uppercase tracking-wider text-primary">
           {type === "signIn" ? "Sign In" : "Sign Up"}
@@ -122,11 +122,11 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex flex-col gap-4">
-        or
+      <CardFooter>
+        {/* or
         <Button className="w-fit" disabled variant={"outline"}>
           Continue with Google
-        </Button>
+        </Button> */}
         <div className="mx-auto text-sm text-gray-500">
           {type === "signIn" ? (
             <div className="flex flex-col items-center gap-2">
@@ -149,7 +149,7 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
             </div>
           ) : (
             <>
-              Already have an account?
+              Already have an account?{" "}
               <Link
                 className="text-primary hover:text-primary/80"
                 href={ROUTES.SIGNIN}

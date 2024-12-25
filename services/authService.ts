@@ -37,6 +37,17 @@ async function signUpService(data: Omit<SignUpForm, "confirmPassword">) {
   }
 }
 
+async function verifyAccountService(token: string) {
+  try {
+    const response = await httpClient.post("auth/verify-user", null, {
+      params: { token },
+    });
+    return { data: response.data, status: response.status };
+  } catch (error: any) {
+    return { data: error.response.data, status: error.response.status };
+  }
+}
+
 async function signInService(data: SignInForm): Promise<ISignInResponse> {
   try {
     const response = await httpClient.post("/auth/signin", data);
@@ -111,6 +122,7 @@ async function logOutService() {
 
 export {
   signUpService,
+  verifyAccountService,
   signInService,
   refreshTokenService,
   requestResetPasswordService,

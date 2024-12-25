@@ -66,7 +66,7 @@ export default function ResetPasswordForm({
 
   if (type === "requestResetPassword")
     return (
-      <Card className="reset-password-form">
+      <Card className="base-form-width">
         <CardHeader className="gap-2 text-center lg:gap-4">
           <LockKeyholeOpen className="mx-auto h-8 w-8 text-primary lg:h-12 lg:w-12" />
           <CardTitle className="reset-password-form-card-title">
@@ -116,7 +116,7 @@ export default function ResetPasswordForm({
     );
 
   return (
-    <Card className="reset-password-form">
+    <Card className="base-form-width">
       <CardHeader className="gap-2 text-center">
         <CardTitle className="reset-password-form-card-title">
           Create A Strong Password

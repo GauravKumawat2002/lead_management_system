@@ -101,7 +101,7 @@ body {
   .data-table-shrinked {
     @apply w-[calc(100vw-3rem)] overflow-x-scroll md:w-[calc(100vw-19rem)] 2xl:w-[calc(100vw-21rem)];
   }
-  .reset-password-form {
+  .base-form-width {
     @apply w-[80vw] md:w-[50vw] lg:w-[40vw];
   }
   .reset-password-form-card-title {

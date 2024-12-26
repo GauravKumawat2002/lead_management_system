@@ -30,23 +30,23 @@ type GetItineraryByIdResponse =
     };
 
 type UpdateItineraryResponse =
-  | { data: string; stauts: number; statusText: string }
+  | { data: string; status: number; statusText: string }
   | { data: string; status: number };
 
 type DeleteAllItineraryResponse =
-  | { data: string; stauts: number; statusText: string }
+  | { data: string; status: number; statusText: string }
   | { data: string; status: number };
 
 type DeleteItineraryByIdResponse =
-  | { data: string; stauts: number; statusText: string }
+  | { data: string; status: number; statusText: string }
   | { data: string; status: number };
 
 type DeleteItineraryByIdsResponse =
-  | { data: string; stauts: number; statusText: string }
+  | { data: string; status: number; statusText: string }
   | { data: string; status: number };
 
 type GetAllItineraryNameResponse =
-  | { data: string[]; stauts: number; statusText: string }
+  | { data: string[]; status: number; statusText: string }
   | { data: string; status: number };
 
 async function addItinerary(
@@ -75,7 +75,7 @@ async function getAllItinerary() {
     return { data: error.response.data, status: error.response.status };
   }
 }
-async function getItineraryById(id: string): Promise<GetItineraryByIdResponse> {
+async function getItineraryById(id: string) {
   try {
     const response = await httpClient.get("/itinerary/fetch-by-id", {
       params: { id },
@@ -94,7 +94,7 @@ async function updateItineraryById(
   itinerary: AddItinerarySchemaType,
 ): Promise<UpdateItineraryResponse> {
   try {
-    const response = await httpClient.post("/itinerary/update", itinerary, {
+    const response = await httpClient.put("/itinerary/update", itinerary, {
       params: { id },
     });
     return {

@@ -1,4 +1,5 @@
 import { ROUTES } from "@/routes/routes";
+import { deleteItineraryByIds } from "@/services/itineraryService";
 import { deleteLeadByIds } from "@/services/leadsService";
 import { Row, Table } from "@tanstack/react-table";
 import { clsx, type ClassValue } from "clsx";
@@ -65,7 +66,7 @@ async function handleButtonInteraction<
           return data.itineraryId;
         })
         .filter(Boolean);
-      // await deleteItineraryByIds(selectedItineraryIds);
+      await deleteItineraryByIds(selectedItineraryIds);
       table?.resetRowSelection();
     }
     if (action === "Add New") {

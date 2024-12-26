@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/routes";
+import { deleteItineraryById } from "@/services/itineraryService";
 export const columns: ColumnDef<ItineraryTableData>[] = [
   {
     id: "serialNumber",
@@ -26,9 +27,6 @@ export const columns: ColumnDef<ItineraryTableData>[] = [
   {
     id: "select",
     header: ({ table }) => {
-      const allSelectedIds: string[] = table
-        .getSelectedRowModel()
-        .rows.map((row) => row.getValue("itineraryId"));
       return (
         <Checkbox
           className="mr-2 flex self-center"
@@ -103,9 +101,9 @@ export const columns: ColumnDef<ItineraryTableData>[] = [
             <DropdownMenuItem
               key={"Delete Itinerary"}
               onClick={async () => {
-                // will add functionality once Ashu exposes api's
-                // await deleteLeadByIds([id]);
-                // router.refresh();
+                const result = await deleteItineraryById(id);
+                console.log(result);
+                router.refresh();
               }}
             >
               Delete Itinerary

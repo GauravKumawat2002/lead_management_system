@@ -4,7 +4,7 @@ import { AddItinerarySchemaType } from "@/schemas/add-itinerary-form-schema";
 import httpClient from "./httpClient";
 
 type AddItineraryResponse =
-  | { data: string; stauts: number; statusText: string }
+  | { data: string; status: number; statusText: string }
   | { data: string; status: number };
 
 type GetAllItineraryResponse =
@@ -122,7 +122,7 @@ async function deleteItineraryById(
   id: string,
 ): Promise<DeleteItineraryByIdResponse> {
   try {
-    const response = await httpClient.delete(`/leads/delete-by-id`, {
+    const response = await httpClient.delete(`/itinerary/delete-by-id`, {
       params: { id },
     });
     return {
@@ -134,11 +134,13 @@ async function deleteItineraryById(
     return { data: error.response.data, status: error.response.status };
   }
 }
-async function deleteLeadByIds(
+async function deleteItineraryByIds(
   ids: string[],
 ): Promise<DeleteItineraryByIdsResponse> {
   try {
-    const response = await httpClient.delete(`/leads/delete-by-ids`, {
+    console.log(ids);
+    console.log(ids.join(","));
+    const response = await httpClient.delete(`/itinerary/delete-by-ids`, {
       params: { ids: ids.join(",") },
     });
     return {
@@ -170,6 +172,6 @@ export {
   updateItineraryById,
   deleteAllItinerary,
   deleteItineraryById,
-  deleteLeadByIds,
+  deleteItineraryByIds,
   getAllItineraryNamesService,
 };

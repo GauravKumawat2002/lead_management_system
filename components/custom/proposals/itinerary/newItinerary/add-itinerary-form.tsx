@@ -21,8 +21,14 @@ import {
 } from "@/components/ui/card";
 
 export default function AddItineraryForm({
+  onSubmit,
   defaultValues,
 }: {
+  onSubmit: (
+    data: AddItinerarySchemaType,
+    resetForm: () => void,
+    navigateRoute?: any,
+  ) => void;
   defaultValues?: ItineraryData;
 }) {
   const [showButton, setShowButton] = useState(false);
@@ -94,7 +100,7 @@ export default function AddItineraryForm({
           onSubmit={form.handleSubmit((data) => {
             console.log(data);
             !showButton && setShowButton(true);
-            // onSubmit(data, form.reset);
+            onSubmit(data, form.reset);
           })}
           method="POST"
         >

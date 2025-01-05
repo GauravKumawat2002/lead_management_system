@@ -37,9 +37,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import CustomRichTextEditor from "./custom-rich-text-editor";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css";
+// const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+// import "react-quill/dist/quill.snow.css";
 interface CustomFormFieldProps<T extends FieldValues> {
   required?: boolean;
   control: Control<T>;
@@ -240,14 +241,20 @@ export default function CustomFormField<
           )}
           {type === "rich-text" && (
             <FormControl>
-              <ReactQuill
-                theme="snow"
-                modules={quillModules}
-                value={field.value as string}
+              <CustomRichTextEditor
                 onChange={field.onChange}
-                placeholder={placeholder || "Start typing..."}
+                value={field.value as string}
               />
             </FormControl>
+            // <FormControl>
+            //   <ReactQuill
+            //     theme="snow"
+            //     modules={quillModules}
+            //     value={field.value as string}
+            //     onChange={field.onChange}
+            //     placeholder={placeholder || "Start typing..."}
+            //   />
+            // </FormControl>
           )}
           <FormMessage {...field} className="form-message mt-2" />
         </FormItem>

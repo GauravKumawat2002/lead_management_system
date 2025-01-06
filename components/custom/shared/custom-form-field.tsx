@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 import { format } from "date-fns";
 import { Eye, EyeOff, CalendarRangeIcon } from "lucide-react";
@@ -36,7 +36,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import CustomRichTextEditor from "./custom-rich-text-editor";
+import CustomRichTextEditor, {
+  RichTextEditorRef,
+} from "./custom-rich-text-editor";
 
 interface CustomFormFieldProps<T extends FieldValues> {
   required?: boolean;
@@ -53,32 +55,37 @@ interface CustomFormFieldProps<T extends FieldValues> {
     | "textarea"
     | "text"
     | "datetime-local"
-    | "rich-text"
-    | string;
+    | "rich-text";
 }
 
-export default function CustomFormField<
-  T extends
+export default forwardRef<
+  RichTextEditorRef,
+  CustomFormFieldProps<
     | SignInForm
     | SignUpForm
+    | ConfirmResetPasswordSchemaType
+    | RequestResetPasswordSchemaType
     | AddLeadsSchemaType
     | AddItinerarySchemaType
-    | ConfirmResetPasswordSchemaType
-    | RequestResetPasswordSchemaType,
->({
-  control,
-  label,
-  name,
-  options,
-  placeholder,
-  type,
-  required = true,
-}: CustomFormFieldProps<T>) {
+  >
+>(function CustomFormField(
+  { control, label, name, options, placeholder, type, required = true },
+  ref,
+) {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
+  const richTextRef = useRef<RichTextEditorRef>(null);
+  useImperativeHandle(
+    ref,
+    () => ({
+      setData: (data: string) =>
+        type === "rich-text" && richTextRef.current?.setData(data),
+    }),
+    [type],
+  );
 
   return (
     <FormField
@@ -220,6 +227,7 @@ export default function CustomFormField<
           {type === "rich-text" && (
             <FormControl>
               <CustomRichTextEditor
+                ref={richTextRef}
                 onChange={field.onChange}
                 value={field.value as string}
               />
@@ -230,4 +238,4 @@ export default function CustomFormField<
       )}
     />
   );
-}
+});

@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 import { format } from "date-fns";
 import { Eye, EyeOff, CalendarRangeIcon } from "lucide-react";
-import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import {
   ConfirmResetPasswordSchemaType,
@@ -39,8 +38,6 @@ import {
 } from "@/components/ui/popover";
 import CustomRichTextEditor from "./custom-rich-text-editor";
 
-// const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-// import "react-quill/dist/quill.snow.css";
 interface CustomFormFieldProps<T extends FieldValues> {
   required?: boolean;
   control: Control<T>;
@@ -81,25 +78,6 @@ export default function CustomFormField<
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
-  };
-
-  const quillModules = {
-    toolbar: [
-      ["bold", "italic", "underline", "strike"], // toggled buttons
-      ["blockquote", "code-block"],
-      ["link", "image", "video", "formula"],
-      [{ header: 1 }, { header: 2 }], // custom button values
-      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-      [{ script: "sub" }, { script: "super" }], // superscript/subscript
-      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-      [{ direction: "rtl" }], // text direction
-      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-      [{ font: [] }],
-      [{ align: [] }],
-      ["clean"], // remove formatting button
-    ],
   };
 
   return (
@@ -246,15 +224,6 @@ export default function CustomFormField<
                 value={field.value as string}
               />
             </FormControl>
-            // <FormControl>
-            //   <ReactQuill
-            //     theme="snow"
-            //     modules={quillModules}
-            //     value={field.value as string}
-            //     onChange={field.onChange}
-            //     placeholder={placeholder || "Start typing..."}
-            //   />
-            // </FormControl>
           )}
           <FormMessage {...field} className="form-message mt-2" />
         </FormItem>

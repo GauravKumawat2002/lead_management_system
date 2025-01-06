@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +12,7 @@ import { camelToSnake } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import CustomFormField from "@/components/custom/shared/custom-form-field";
+import { RichTextEditorRef } from "@/components/custom/shared/custom-rich-text-editor";
 import {
   Card,
   CardHeader,
@@ -45,6 +46,11 @@ export default function AddItineraryForm({
           terms_and_conditions: "",
         },
   });
+  // 2. Create refs for each RTE field
+  const tripDetailsRef = useRef<RichTextEditorRef>(null);
+  const thankYouNoteRef = useRef<RichTextEditorRef>(null);
+  const termsConditionsRef = useRef<RichTextEditorRef>(null);
+
   const formFields = [
     {
       control: form.control,
@@ -63,6 +69,7 @@ export default function AddItineraryForm({
       required: true,
     },
   ];
+  // 3. Update rteFormFields with refs
   const rteFormFields = [
     {
       control: form.control,
@@ -71,6 +78,7 @@ export default function AddItineraryForm({
       placeholder: "Enter Trip Details",
       type: "rich-text",
       required: false,
+      ref: tripDetailsRef,
     },
     {
       control: form.control,
@@ -79,6 +87,7 @@ export default function AddItineraryForm({
       placeholder: "Enter thank you note",
       type: "rich-text",
       required: false,
+      ref: thankYouNoteRef,
     },
     {
       control: form.control,
@@ -87,6 +96,7 @@ export default function AddItineraryForm({
       placeholder: "Enter terms and conditions",
       type: "rich-text",
       required: false,
+      ref: termsConditionsRef,
     },
   ];
 
@@ -99,8 +109,11 @@ export default function AddItineraryForm({
         <form
           onSubmit={form.handleSubmit((data) => {
             console.log(data);
-            !showButton && setShowButton(true);
+            !showButton && setShowButton(true); // Clear RTEs after submission
             onSubmit(data, form.reset);
+            tripDetailsRef.current?.setData("");
+            thankYouNoteRef.current?.setData("");
+            termsConditionsRef.current?.setData("");
           })}
           method="POST"
         >
@@ -130,6 +143,7 @@ export default function AddItineraryForm({
                   placeholder={field.placeholder}
                   type={field.type}
                   required={field.required}
+                  ref={field.ref}
                 />
               ))}
             </div>

@@ -103,7 +103,7 @@ body {
     --ck-color-base-foreground: var(--ck-custom-foreground) !important;
     --ck-color-base-background: var(--ck-custom-background) !important;
     --ck-color-base-border: hsl(var(--border)) !important;
-    --ck-color-focus-border: hsl(208, 90%, 62%) !important;
+    --ck-color-focus-border: hsl(var(--ring)) !important;
     --ck-color-text: hsl(0, 0%, 98%) !important;
     --ck-color-shadow-drop: hsla(0, 0%, 0%, 0.2) !important;
     --ck-color-shadow-inner: hsla(0, 0%, 0%, 0.1 !important);

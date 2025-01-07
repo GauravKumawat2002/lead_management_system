@@ -1,3 +1,4 @@
+import { getToken } from "@/lib/tokenStorage";
 export class UploadAdapter {
   private loader;
 
@@ -11,25 +12,22 @@ export class UploadAdapter {
       const formData = new FormData();
       formData.append("image", file);
 
-
-
-      
-      const response = await fetch(
-        "https://api.imgbb.com/1/upload?key=e5d7ddbd03aca8f0bccfef2fbf846ff5",
-        {
-          method: "POST",
-          body: formData,
+      const response = await fetch("http://localhost:8080/api/images/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${getToken("refreshToken")} `,
         },
-      );
+      });
 
       const data = await response.json();
 
-      if (!data.success) {
+      if (!data) {
         throw new Error(data.error?.message || "Upload failed");
       }
 
       return {
-        default: data.data.url,
+        default: data.url,
       };
     } catch (error) {
       console.error("Upload failed:", error);

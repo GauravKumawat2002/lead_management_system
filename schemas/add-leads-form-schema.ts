@@ -1,9 +1,15 @@
 import { z } from "zod";
 
 const AddLeadsSchema = z.object({
-  budget_per_adult: z.string().min(1, { message: "Budget per adult expected" }),
+  budget_per_adult: z
+    .string()
+    .regex(/^\d*$/, { message: "Only digits are allowed" })
+    .min(1, { message: "Budget per adult expected" }),
 
-  budget_per_child: z.string().optional(), // Optional if no children
+  budget_per_child: z
+    .string()
+    .regex(/^\d*$/, { message: "Only digits are allowed" })
+    .optional(), // Optional if no children
 
   client_contact_no: z
     .string()
@@ -24,13 +30,10 @@ const AddLeadsSchema = z.object({
 
   destination: z.string().optional(),
 
-  enquiry_type: z.enum([
-    "flight booking",
-    "hotel booking",
-    "sight seeing",
-    "transport",
-    "other",
-  ]),
+  enquiry_type: z.enum(
+    ["flight booking", "hotel booking", "sight seeing", "transport", "other"],
+    { message: "Enquiry type is required" },
+  ),
 
   executive: z
     .string()
@@ -40,9 +43,15 @@ const AddLeadsSchema = z.object({
     message: "Invalid datetime format. Expected format: YYYY-MM-DDThh:mm",
   }),
 
-  no_of_adults: z.string().min(1, { message: "Must have at least 1 adult" }),
+  no_of_adults: z
+    .string()
+    .min(1, { message: "Must have at least 1 adult" })
+    .regex(/^\d*$/, { message: "Only digits are allowed" }),
 
-  no_of_children: z.string().min(0).optional(),
+  no_of_children: z
+    .string()
+    .regex(/^\d*$/, { message: "Only digits are allowed" })
+    .optional(),
 
   package_name: z
     .string()
@@ -50,31 +59,37 @@ const AddLeadsSchema = z.object({
 
   planned_travel_date: z.date({ message: "Invalid date" }).optional(),
 
-  stage: z.enum([
-    "hot",
-    "warm",
-    "cold",
-    "not interested",
-    "not answer",
-    "meeting fixed",
-    "converted to clients",
-    "meeting completed",
-    "active",
-    "converted to hot deals",
-  ]),
+  stage: z.enum(
+    [
+      "hot",
+      "warm",
+      "cold",
+      "not interested",
+      "not answer",
+      "meeting fixed",
+      "converted to clients",
+      "meeting completed",
+      "active",
+      "converted to hot deals",
+    ],
+    { message: "Stage is required" },
+  ),
 
-  status: z.enum([
-    "unattended",
-    "blocked",
-    "proposal sent",
-    "spoke",
-    "meeting fixed",
-    "met",
-    "closed",
-    "lost",
-    "active",
-    "converted",
-  ]),
+  status: z.enum(
+    [
+      "unattended",
+      "blocked",
+      "proposal sent",
+      "spoke",
+      "meeting fixed",
+      "met",
+      "closed",
+      "lost",
+      "active",
+      "converted",
+    ],
+    { message: "Status is required" },
+  ),
 });
 
 type AddLeadsSchemaType = z.infer<typeof AddLeadsSchema>;

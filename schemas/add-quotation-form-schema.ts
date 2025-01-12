@@ -188,6 +188,21 @@ const AddQuotationSchema = z.object({
     message: "Enter a valid expiry date.",
     required_error: "Quotation validity date is mandatory.",
   }),
+  sub_total: z
+    .string({ required_error: "Sub-total is required" })
+    .regex(/^\d{1,3}(,\d{2})*(\.\d+)?$/, {
+      message: "Sub-total must be a valid number format",
+    }),
+  discount: z
+    .string({ required_error: "Discount is required" })
+    .regex(/^\d{1,3}(,\d{2})*(\.\d+)?$/, {
+      message: "Discount must be a valid number format",
+    }),
+  total: z
+    .string({ required_error: "Total is required" })
+    .regex(/^\d{1,3}(,\d{2})*(\.\d+)?$/, {
+      message: "Total must be a valid number format",
+    }),
 });
 
 type Currency = typeof currencies;

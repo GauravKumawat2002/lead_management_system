@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CustomFormField from "@/components/custom/shared/custom-form-field";
 import { Button } from "@/components/ui/button";
@@ -73,8 +73,8 @@ export default function ResetPasswordForm({
             Trouble logging in?
           </CardTitle>
           <p className="reset-password-form-card-description">
-            Enter your email address and we'll send you a link to reset your
-            password.
+            Enter your email address and we&apos;ll send you a link to reset
+            your password.
           </p>
         </CardHeader>
         <CardContent>
@@ -88,7 +88,7 @@ export default function ResetPasswordForm({
               {formFields.map((field) => (
                 <CustomFormField
                   key={field.name}
-                  control={field.control}
+                  control={field.control as Control<UnionSchemaType>}
                   label={field.label}
                   name={field.name as keyof RequestResetPasswordSchemaType}
                   placeholder={field.placeholder}
@@ -135,7 +135,7 @@ export default function ResetPasswordForm({
             {formFields.map((field) => (
               <CustomFormField
                 key={field.name}
-                control={field.control}
+                control={field.control as Control<UnionSchemaType>}
                 label={field.label}
                 name={field.name as keyof ConfirmResetPasswordSchemaType}
                 placeholder={field.placeholder}

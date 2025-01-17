@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import CustomFormField from "../shared/custom-form-field";
@@ -99,7 +99,7 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
               ? FormFields.map((field) => (
                   <CustomFormField
                     key={field.name}
-                    control={field.control}
+                    control={field.control as Control<UnionSchemaType>}
                     label={field.label}
                     name={field.name as keyof SignInForm}
                     placeholder={field.placeholder}
@@ -109,7 +109,7 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
               : FormFields.map((field) => (
                   <CustomFormField
                     key={field.name}
-                    control={field.control}
+                    control={field.control as Control<UnionSchemaType>}
                     label={field.label}
                     name={field.name as keyof SignUpForm}
                     placeholder={field.placeholder}
@@ -131,7 +131,7 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
           {type === "signIn" ? (
             <div className="flex flex-col items-center gap-2">
               <p>
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link
                   className="text-primary hover:text-primary/80"
                   href={ROUTES.SIGNUP}

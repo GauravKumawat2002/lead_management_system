@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   AddItinerarySchema,
@@ -28,7 +28,7 @@ export default function AddItineraryForm({
   onSubmit: (
     data: AddItinerarySchemaType,
     resetForm: () => void,
-    navigateRoute?: any,
+    // navigateRoute?: any,
   ) => void;
   defaultValues?: ItineraryData;
 }) {
@@ -109,7 +109,7 @@ export default function AddItineraryForm({
         <form
           onSubmit={form.handleSubmit((data) => {
             console.log(data);
-            !showButton && setShowButton(true); // Clear RTEs after submission
+            if (!showButton) setShowButton(true); // Clear RTEs after submission
             onSubmit(data, form.reset);
             tripDetailsRef.current?.setData("");
             thankYouNoteRef.current?.setData("");
@@ -123,7 +123,7 @@ export default function AddItineraryForm({
                 <div className="w-full" key={field.name}>
                   <CustomFormField
                     key={field.name}
-                    control={field.control}
+                    control={field.control as Control<UnionSchemaType>}
                     label={field.label}
                     name={field.name as keyof AddItinerarySchemaType}
                     placeholder={field.placeholder}
@@ -137,7 +137,7 @@ export default function AddItineraryForm({
               {rteFormFields.map((field) => (
                 <CustomFormField
                   key={field.name}
-                  control={field.control}
+                  control={field.control as Control<UnionSchemaType>}
                   label={field.label}
                   name={field.name as keyof AddItinerarySchemaType}
                   placeholder={field.placeholder}

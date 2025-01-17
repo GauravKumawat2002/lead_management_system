@@ -1,5 +1,5 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   AddLeadsSchema,
@@ -27,7 +27,7 @@ export default function AddLeads({
   onSubmit: (
     data: AddLeadsSchemaTypeSchema,
     resetForm: () => void,
-    navigateRoute?: any,
+    // navigateRoute?: any,
   ) => void;
   defaultValues?: LeadData;
 }) {
@@ -224,7 +224,7 @@ export default function AddLeads({
       <Form {...AddLeadsSchemaType}>
         <form
           onSubmit={AddLeadsSchemaType.handleSubmit((data) => {
-            !showButton && setShowButton(true);
+            if (!showButton) setShowButton(true);
             onSubmit(data, AddLeadsSchemaType.reset);
           })}
           method="POST"
@@ -237,7 +237,7 @@ export default function AddLeads({
               {primaryFormFields.map((field) => (
                 <CustomFormField
                   key={field.name}
-                  control={field.control}
+                  control={field.control as Control<UnionSchemaType>}
                   label={field.label}
                   name={field.name as keyof AddLeadsSchemaTypeSchema}
                   options={field.options}
@@ -254,7 +254,7 @@ export default function AddLeads({
               {travelDetailsFormFields.map((field) => (
                 <CustomFormField
                   key={field.name}
-                  control={field.control}
+                  control={field.control as Control<UnionSchemaType>}
                   label={field.label}
                   name={field.name as keyof AddLeadsSchemaTypeSchema}
                   options={field.options}
@@ -271,7 +271,7 @@ export default function AddLeads({
               {budgetFormFields.map((field) => (
                 <CustomFormField
                   key={field.name}
-                  control={field.control}
+                  control={field.control as Control<UnionSchemaType>}
                   label={field.label}
                   name={field.name as keyof AddLeadsSchemaTypeSchema}
                   placeholder={field.placeholder}

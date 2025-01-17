@@ -3,7 +3,7 @@ import StageTimeline from "@/components/custom/leads/leadDetails/stage-timeline"
 import DetailCard from "@/components/custom/shared/detail-card";
 import { getLeadById } from "@/services/leadsService";
 
-export default async function page({
+export default async function LeadDetailPage({
   params,
 }: {
   params: { "lead-id": string };

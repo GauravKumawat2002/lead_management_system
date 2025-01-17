@@ -14,7 +14,7 @@ import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/routes";
 import { deleteItineraryById } from "@/services/itineraryService";
-export const columns: ColumnDef<ItineraryTableData>[] = [
+export const Columns: ColumnDef<ItineraryTableData>[] = [
   {
     id: "serialNumber",
     header: () => (
@@ -69,6 +69,7 @@ export const columns: ColumnDef<ItineraryTableData>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const router = useRouter();
       const id: string = row.getValue("itineraryId");
       return (

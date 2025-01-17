@@ -25,9 +25,9 @@ export const columns: ColumnDef<LeadsTableData>[] = [
   {
     id: "select",
     header: ({ table }) => {
-      const allSelectedIds: string[] = table
-        .getSelectedRowModel()
-        .rows.map((row) => row.getValue("leadId"));
+      // const allSelectedIds: string[] = table
+      //   .getSelectedRowModel()
+      //   .rows.map((row) => row.getValue("leadId"));
       return (
         <Checkbox
           className="mr-2 flex self-center"
@@ -104,6 +104,7 @@ export const columns: ColumnDef<LeadsTableData>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const router = useRouter();
       const id: string = row.getValue("leadId");
       return (

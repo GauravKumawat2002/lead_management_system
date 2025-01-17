@@ -1,6 +1,5 @@
 import LeadActions from "@/components/custom/shared/summary-card-with-actions";
 import StageTimeline from "@/components/custom/leads/leadDetails/stage-timeline";
-import { useState } from "react";
 import DetailCard from "@/components/custom/shared/detail-card";
 import { getLeadById } from "@/services/leadsService";
 

@@ -25,7 +25,7 @@ export default function ActionButton({ actions }: { actions: Action[] }) {
       <DropdownMenuContent>
         <DropdownMenuGroup>
           {actions.map((action) => (
-            <DropdownMenuItem onClick={action.onClick}>
+            <DropdownMenuItem onClick={action.onClick} key={action.title}>
               {action.title}
             </DropdownMenuItem>
           ))}

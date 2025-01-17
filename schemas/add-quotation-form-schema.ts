@@ -6,6 +6,7 @@ const currencies = [
   { label: "Euro (€)", value: "EUR" },
 ] as const;
 
+// Base Products Schema for Product Schema
 const BaseProductSchema = z.object({
   id: z.string().uuid().optional(),
   name: z
@@ -97,7 +98,7 @@ const HotelSchema = BaseProductSchema.omit({
   check_out_date: z.date({ required_error: "Check-out date is mandatory." }),
 });
 
-const RestaurentSchema = BaseProductSchema.omit({
+const RestaurantSchema = BaseProductSchema.omit({
   quantity: true,
   description: true,
 }).extend({
@@ -133,7 +134,7 @@ const ProductSchema = z.object({
   planes: z.array(PlaneSchema).optional(),
   hotels: z.array(HotelSchema).optional(),
   places: z.array(PlaceSchema).optional(),
-  restaurents: z.array(RestaurentSchema).optional(),
+  restaurants: z.array(RestaurantSchema).optional(),
 });
 
 type ProductsType = z.infer<typeof ProductSchema>;
@@ -205,8 +206,8 @@ const AddQuotationSchema = z.object({
     }),
 });
 
-type Currency = typeof currencies;
+type CurrencyType = typeof currencies;
 type AddQuotationSchemaType = z.infer<typeof AddQuotationSchema>;
 
-export type { Currency, AddQuotationSchemaType };
+export type { CurrencyType, AddQuotationSchemaType };
 export { AddQuotationSchema, currencies };

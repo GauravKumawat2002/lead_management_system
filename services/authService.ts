@@ -24,6 +24,11 @@ interface RefreshTokenError {
   status: number;
 }
 
+interface VerifyAccountResponse {
+  data: any;
+  status: number;
+}
+
 type IRefreshTokenResponse = RefreshTokenResponse | RefreshTokenError;
 
 async function signUpService(data: Omit<SignUpForm, "confirmPassword">) {
@@ -37,7 +42,9 @@ async function signUpService(data: Omit<SignUpForm, "confirmPassword">) {
   }
 }
 
-async function verifyAccountService(token: string) {
+async function verifyAccountService(
+  token: string,
+): Promise<VerifyAccountResponse> {
   try {
     const response = await httpClient.post("auth/verify-user", null, {
       params: { token },
@@ -129,3 +136,4 @@ export {
   confirmResetPasswordService,
   logOutService,
 };
+export type { VerifyAccountResponse };

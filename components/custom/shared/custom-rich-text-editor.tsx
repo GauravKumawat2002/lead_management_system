@@ -6,78 +6,17 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import { UploadAdapter } from "@/adapters/upload-adapter";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import {
-  ClassicEditor,
-  Alignment,
-  Autoformat,
-  AutoImage,
-  AutoLink,
-  Autosave,
-  BalloonToolbar,
-  BlockQuote,
-  Bold,
-  Bookmark,
-  Code,
-  CodeBlock,
-  Essentials,
-  FontBackgroundColor,
-  FontColor,
-  FontFamily,
-  FontSize,
-  GeneralHtmlSupport,
-  Heading,
-  Highlight,
-  HorizontalLine,
-  Image,
-  ImageBlock,
-  ImageCaption,
-  ImageInline,
-  ImageInsert,
-  ImageInsertViaUrl,
-  ImageResize,
-  ImageStyle,
-  ImageTextAlternative,
-  ImageToolbar,
-  ImageUpload,
-  Indent,
-  IndentBlock,
-  Italic,
-  Link,
-  LinkImage,
-  List,
-  ListProperties,
-  // MediaEmbed,
-  Paragraph,
-  PasteFromOffice,
-  RemoveFormat,
-  SimpleUploadAdapter,
-  SourceEditing,
-  Strikethrough,
-  Style,
-  Subscript,
-  Superscript,
-  Table,
-  TableCaption,
-  TableCellProperties,
-  TableColumnResize,
-  TableProperties,
-  TableToolbar,
-  TextTransformation,
-  TodoList,
-  Underline,
-  HeadingConfig,
-  LinkConfig,
-  GeneralHtmlSupportConfig,
-  EditorConfig,
-} from "ckeditor5";
-
 import "ckeditor5/ckeditor5.css";
-const LICENSE_KEY = process.env.NEXT_PUBLIC_EDITOR_TRIAL_LISCENSE_KEY;
+import { UploadAdapter } from "@/adapters/upload-adapter";
+import { CKEditor, useCKEditorCloud } from "@ckeditor/ckeditor5-react";
+import { Editor, EditorConfig } from "@ckeditor/ckeditor5-core";
+import { GeneralHtmlSupportConfig, HeadingConfig, LinkConfig } from "ckeditor5";
+
+const LICENSE_KEY = process.env.NEXT_PUBLIC_EDITOR_DEVELOPMENT_LISCENSE_KEY;
 export interface RichTextEditorRef {
   setData: (data: string) => void;
 }
+
 interface CustomRichTextEditorProps {
   value: string;
   onChange: (data: string) => void;
@@ -88,7 +27,8 @@ export default forwardRef<RichTextEditorRef, CustomRichTextEditorProps>(
     const editorContainerRef = useRef(null);
     const editorRef = useRef(null);
     const [isLayoutReady, setIsLayoutReady] = useState(false);
-    const ckEtidorRef = useRef<CKEditor<ClassicEditor> | null>(null);
+    const ckEtidorRef = useRef<CKEditor<Editor> | null>(null);
+    const cloud = useCKEditorCloud({ version: "44.1.0" });
 
     useImperativeHandle(ref, () => ({
       setData: (data: string) =>
@@ -101,10 +41,72 @@ export default forwardRef<RichTextEditorRef, CustomRichTextEditorProps>(
       return () => setIsLayoutReady(false);
     }, []);
 
-    const { editorConfig } = useMemo(() => {
-      if (!isLayoutReady) {
+    const { editorConfig, ClassicEditor } = useMemo(() => {
+      if (cloud.status !== "success" || !isLayoutReady) {
         return {};
       }
+
+      const {
+        ClassicEditor,
+        Alignment,
+        Autoformat,
+        AutoImage,
+        AutoLink,
+        Autosave,
+        BalloonToolbar,
+        BlockQuote,
+        Bold,
+        Bookmark,
+        Code,
+        CodeBlock,
+        Essentials,
+        FontBackgroundColor,
+        FontColor,
+        FontFamily,
+        FontSize,
+        GeneralHtmlSupport,
+        Heading,
+        Highlight,
+        HorizontalLine,
+        Image,
+        ImageBlock,
+        ImageCaption,
+        ImageInline,
+        ImageInsert,
+        ImageInsertViaUrl,
+        ImageResize,
+        ImageStyle,
+        ImageTextAlternative,
+        ImageToolbar,
+        ImageUpload,
+        Indent,
+        IndentBlock,
+        Italic,
+        Link,
+        LinkImage,
+        List,
+        ListProperties,
+        Paragraph,
+        PasteFromOffice,
+        RemoveFormat,
+        SimpleUploadAdapter,
+        SourceEditing,
+        Strikethrough,
+        Style,
+        Subscript,
+        Superscript,
+        Table,
+        TableCaption,
+        TableCellProperties,
+        TableColumnResize,
+        TableProperties,
+        TableToolbar,
+        TextTransformation,
+        TodoList,
+        Underline,
+        Editor,
+      } = cloud.CKEditor;
+
       // sub-configs additionally created to better type=safety
       const headingConfig: HeadingConfig = {
         options: [
@@ -177,9 +179,6 @@ export default forwardRef<RichTextEditorRef, CustomRichTextEditorProps>(
         },
       };
 
-      // const simpleUploadConfig: SimpleUploadConfig = {
-      //   uploadUrl: `https://api.imgbb.com/1/upload?key=e5d7ddbd03aca8f0bccfef2fbf846ff5&image=`,
-      // };
       // main config object required by the editor
       const editorConfig: EditorConfig = {
         toolbar: {
@@ -262,7 +261,6 @@ export default forwardRef<RichTextEditorRef, CustomRichTextEditorProps>(
           LinkImage,
           List,
           ListProperties,
-          // MediaEmbed,
           Paragraph,
           PasteFromOffice,
           RemoveFormat,
@@ -384,9 +382,9 @@ export default forwardRef<RichTextEditorRef, CustomRichTextEditorProps>(
           ],
         },
         extraPlugins: [
-          function (editor: any) {
+          function (editor: Editor) {
             editor.plugins.get("FileRepository").createUploadAdapter = (
-              loader: any,
+              loader,
             ) => {
               return new UploadAdapter(loader);
             };
@@ -395,8 +393,10 @@ export default forwardRef<RichTextEditorRef, CustomRichTextEditorProps>(
       };
       return {
         editorConfig,
+        ClassicEditor,
+        Editor,
       };
-    }, [isLayoutReady]);
+    }, [cloud.status, isLayoutReady, value]);
 
     return (
       <div className="main-container">
@@ -408,9 +408,17 @@ export default forwardRef<RichTextEditorRef, CustomRichTextEditorProps>(
             <div ref={editorRef}>
               {editorConfig && (
                 <CKEditor
+                  onReady={(editor) => {
+                    editor.ui.getEditableElement()?.classList.add("!px-8");
+                  }}
+                  onBlur={(e, editor) => {
+                    editor.ui.getEditableElement()?.classList.add("!px-8");
+                  }}
+                  onFocus={(e, editor) => {
+                    editor.ui.getEditableElement()?.classList.add("!px-8");
+                  }}
                   onChange={(e, editor) => {
                     const data = editor.getData();
-                    console.log(data);
                     onChange(data);
                   }}
                   editor={ClassicEditor}

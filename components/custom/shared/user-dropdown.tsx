@@ -7,9 +7,10 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
-import { ChevronUp, User2 } from "lucide-react";
+import { ChevronUp, LucideProps, User2 } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import Link from "next/link";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export default function UserDropdown({
   DropDownItems,
@@ -18,7 +19,9 @@ export default function UserDropdown({
   DropDownItems: {
     label: string;
     route?: string;
-    icon?: any;
+    icon?: ForwardRefExoticComponent<
+      Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+    >;
     onClick?: () => void;
   }[];
 }) {

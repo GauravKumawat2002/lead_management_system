@@ -4,14 +4,6 @@ import { Control, FieldPath, FieldValues } from "react-hook-form";
 import { format } from "date-fns";
 import { Eye, EyeOff, CalendarRangeIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  ConfirmResetPasswordSchemaType,
-  RequestResetPasswordSchemaType,
-  SignInForm,
-  SignUpForm,
-} from "@/schemas/auth-form-schema";
-import { AddLeadsSchemaType } from "@/schemas/add-leads-form-schema";
-import { AddItinerarySchemaType } from "@/schemas/add-itinerary-form-schema";
 
 import {
   FormField,
@@ -55,22 +47,21 @@ interface CustomFormFieldProps<T extends FieldValues> {
     | "textarea"
     | "text"
     | "datetime-local"
-    | "rich-text";
+    | "rich-text"
+    | string;
 }
 
-export default forwardRef<
-  RichTextEditorRef,
-  CustomFormFieldProps<
-    | SignInForm
-    | SignUpForm
-    | ConfirmResetPasswordSchemaType
-    | RequestResetPasswordSchemaType
-    | AddLeadsSchemaType
-    | AddItinerarySchemaType
-  >
->(function CustomFormField(
-  { control, label, name, options, placeholder, type, required = true },
-  ref,
+export default forwardRef(function CustomFormField<T extends UnionSchemaType>(
+  {
+    control,
+    label,
+    name,
+    options,
+    placeholder,
+    type,
+    required = true,
+  }: CustomFormFieldProps<T>,
+  ref: React.Ref<RichTextEditorRef>,
 ) {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 

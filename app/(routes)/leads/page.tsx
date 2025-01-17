@@ -3,7 +3,7 @@ import { DataTable } from "@/components/custom/leads/data-table";
 import ErrorDisplay from "@/components/custom/shared/error-display";
 import { getAllLeads } from "@/services/leadsService";
 
-export default async function UpdateLeadPage() {
+export default async function LeadPage() {
   const response = await getAllLeads();
   if (response.status !== 200) return <ErrorDisplay message={response.data} />;
   return (

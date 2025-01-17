@@ -23,7 +23,7 @@ export default function DuplicateItineraryPage({
   const itineraryData: ItineraryData = data;
 
   useEffect(() => {
-    isError &&
+    if (isError)
       toast({
         title: "Error fetching Itinerary",
         description: error.message,

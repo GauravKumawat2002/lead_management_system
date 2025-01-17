@@ -9,7 +9,7 @@ import { useGetItineraryById, useUpdateItineraryById } from "@/data/itinerary";
 import AddItineraryForm from "@/components/custom/proposals/itinerary/newItinerary/add-itinerary-form";
 import { AddItinerarySchemaType } from "@/schemas/add-itinerary-form-schema";
 
-export default function page({
+export default function UpdateItineraryPage({
   params,
 }: {
   params: { "itinerary-id": string };
@@ -24,7 +24,7 @@ export default function page({
   const itineraryData: ItineraryData = data;
 
   useEffect(() => {
-    isError &&
+    if (isError)
       toast({
         title: "Error fetching Itinerary",
         description: error.message,

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { cn } from "@/lib/utils";
-import ActionButton, { Action } from "./action-button";
+import ActionButton from "./action-button";
 
 type BaseProps = {
   Name: string;

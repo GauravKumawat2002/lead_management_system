@@ -66,7 +66,10 @@ async function getAllLeads(): Promise<GetAllLeadsResponse> {
     };
   } catch (error: any) {
     // console.error(error);
-    return { data: error.response.data, status: error.response.status };
+    return {
+      data: error.response?.data ?? "An error occured!!",
+      status: error.response?.status ?? 500,
+    };
   }
 }
 async function getLeadById(id: string): Promise<GetLeadByIdResponse> {

@@ -9,17 +9,21 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/routes";
 
-export default function page({ params }: { params: { "lead-id": string } }) {
+export default function UpdateLeadPage({
+  params,
+}: {
+  params: { "lead-id": string };
+}) {
   const leadId = params["lead-id"];
   const { data, isLoading, isSuccess, isError, error } = useGetLeadById(leadId);
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate } = useUpdateLeadById();
-  const leadData: LeadData = data;
+  const leadData = data as LeadData;
 
   useEffect(() => {
-    isError &&
+    if (isError)
       toast({
         title: "Error fetching lead",
         description: error.message,

@@ -4,7 +4,7 @@ import { useAddLeads } from "@/data/leads";
 import { AddLeadsSchemaType } from "@/schemas/add-leads-form-schema";
 import AddLeads from "@/components/custom/leads/newLead/add-Leads-form";
 
-export default function page() {
+export default function NewLeadPage() {
   const { toast } = useToast();
   const { mutate } = useAddLeads();
   function handleAddLead(data: AddLeadsSchemaType, onReset: () => void) {

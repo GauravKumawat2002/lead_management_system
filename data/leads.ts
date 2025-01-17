@@ -40,7 +40,7 @@ function useGetLeadById(leadId: string) {
         if (response.status !== 200) {
           throw new Error(response.data);
         }
-        return response.data;
+        return response.data as LeadData;
       } catch (error: any) {
         throw new Error(error);
       }
